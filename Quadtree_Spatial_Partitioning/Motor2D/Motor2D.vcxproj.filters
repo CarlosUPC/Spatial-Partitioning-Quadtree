@@ -40,6 +40,9 @@
     <ClCompile Include="j1Timer.cpp">
       <Filter>Tools\Timers</Filter>
     </ClCompile>
+    <ClCompile Include="Quadtree.cpp">
+      <Filter>Tools\Optimization Ordering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h">
@@ -90,6 +93,9 @@
     <ClInclude Include="j1Timer.h">
       <Filter>Tools\Timers</Filter>
     </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Tools\Optimization Ordering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -121,6 +127,9 @@
     </Filter>
     <Filter Include="Tools\Timers">
       <UniqueIdentifier>{44f68f56-2713-477a-b7af-8463a30c0c99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Optimization Ordering">
+      <UniqueIdentifier>{e2eba4cc-9def-4c88-8ff0-8b069594782a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
