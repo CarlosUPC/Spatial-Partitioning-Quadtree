@@ -33,11 +33,12 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	Quadtree<int>* qtree;
+	Quadtree<SDL_Rect>* qtree;
 	
 
 private:
 	SDL_Texture* debug_tex;
+	SDL_Rect* coll;
 };
 
 #endif // __j1SCENE_H__

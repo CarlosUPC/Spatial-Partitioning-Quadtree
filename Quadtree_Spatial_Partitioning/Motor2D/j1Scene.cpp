@@ -48,15 +48,21 @@ bool j1Scene::Start()
 	uint w, h;
 	App->win->GetWindowSize(w, h);
 	uint capacity = 4;
-	uint depth = 0;
+	uint depth = 4;
 	SDL_Rect map;
 	map.x = -App->map->data.width * App->map->data.tile_width / 2;
 	map.y = 0;
 	map.w = App->map->data.width * App->map->data.tile_width;
 	map.h = App->map->data.height * App->map->data.tile_height;
 
-	qtree = new Quadtree<int>({ -App->render->camera.x,0,(int)w,(int)h }, capacity, depth);
-	qtree->Split();
+	coll = new SDL_Rect();
+	coll->x = 50;
+	coll->y = 50;
+	coll->w = 300;
+	coll->h = 200;
+
+	qtree = new Quadtree<SDL_Rect>({ -App->render->camera.x,0,(int)w,(int)h }, capacity, depth);
+	//qtree->Split();
 	return true;
 }
 
@@ -84,6 +90,9 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		App->win->ZoomOut();
+
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_UP)
+		qtree->Insert(coll);
 
 
 	App->map->Draw();
