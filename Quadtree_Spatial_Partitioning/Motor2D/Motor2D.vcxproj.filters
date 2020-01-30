@@ -40,9 +40,6 @@
     <ClCompile Include="j1Timer.cpp">
       <Filter>Tools\Timers</Filter>
     </ClCompile>
-    <ClCompile Include="Quadtree.cpp">
-      <Filter>Tools\Optimization Ordering</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h">
@@ -94,6 +91,9 @@
       <Filter>Tools\Timers</Filter>
     </ClInclude>
     <ClInclude Include="Quadtree.h">
+      <Filter>Tools\Optimization Ordering</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadNode.h">
       <Filter>Tools\Optimization Ordering</Filter>
     </ClInclude>
   </ItemGroup>

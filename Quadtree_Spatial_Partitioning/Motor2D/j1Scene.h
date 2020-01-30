@@ -2,7 +2,7 @@
 #define __j1SCENE_H__
 
 #include "j1Module.h"
-
+#include "Quadtree.h"
 struct SDL_Texture;
 
 
@@ -33,6 +33,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	Quadtree<int>* qtree;
 	
 
 private:

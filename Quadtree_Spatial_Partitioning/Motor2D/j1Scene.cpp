@@ -44,8 +44,19 @@ bool j1Scene::Start()
 
 	debug_tex = App->tex->Load("maps/path2.png");
 
-	
 
+	uint w, h;
+	App->win->GetWindowSize(w, h);
+	uint capacity = 4;
+	uint depth = 0;
+	SDL_Rect map;
+	map.x = -App->map->data.width * App->map->data.tile_width / 2;
+	map.y = 0;
+	map.w = App->map->data.width * App->map->data.tile_width;
+	map.h = App->map->data.height * App->map->data.tile_height;
+
+	qtree = new Quadtree<int>({ -App->render->camera.x,0,(int)w,(int)h }, capacity, depth);
+	qtree->Split();
 	return true;
 }
 
@@ -76,8 +87,8 @@ bool j1Scene::Update(float dt)
 
 
 	App->map->Draw();
-
-
+	qtree->Draw();
+	
 	return true;
 }
 
