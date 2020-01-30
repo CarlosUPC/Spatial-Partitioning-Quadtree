@@ -27,6 +27,7 @@ public:
 
 	void Split();
 	bool Insert(T* data);
+	void Query(std::list<T*>& found, T* data);
 	void Draw();
 
 	bool Contains(const SDL_Rect& rect);
@@ -132,6 +133,35 @@ template<class T>
 	 }
 
 
+
+
+ }
+
+ template<class T>
+ inline void QuadNode<T>::Query(std::list<T*>& found, T* data)
+ {
+
+	 if (!this->Contains(*data))
+		 return;
+
+	 if (this->leaf) // LEAF NODE
+	 {
+		 typename std::list<T>::iterator it;
+
+		 for (std::list<T*>::iterator it = elements.begin(); it != elements.end(); it++)
+		 {
+			 if(data != *it)
+				found.push_back(*it);
+		 }
+
+	 }
+	 else // STEM NODE
+	 {
+
+		 for (int i = 0; i < 3; ++i)
+			 this->nodes[i]->Query(found, data);
+
+	 }
 
 
  }

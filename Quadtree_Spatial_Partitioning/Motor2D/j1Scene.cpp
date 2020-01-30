@@ -55,11 +55,8 @@ bool j1Scene::Start()
 	map.w = App->map->data.width * App->map->data.tile_width;
 	map.h = App->map->data.height * App->map->data.tile_height;
 
-	coll = new SDL_Rect();
-	coll->x = 50;
-	coll->y = 50;
-	coll->w = 300;
-	coll->h = 200;
+	//coll = new SDL_Rect();
+	
 
 	qtree = new Quadtree<SDL_Rect>({ -App->render->camera.x,0,(int)w,(int)h }, capacity, depth);
 	//qtree->Split();
@@ -91,8 +88,24 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		App->win->ZoomOut();
 
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_UP)
-		qtree->Insert(coll);
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_UP) {
+		qtree->Insert(coll = new SDL_Rect({50,50,300,200}));
+		colliders.push_back(coll);
+	}
+
+
+
+	for (std::list<SDL_Rect*>::iterator it = colliders.begin(); it != colliders.end(); it++) 
+	{
+		found.clear();
+		qtree->Query(found, *it);
+
+		if (found.size() > 0)
+		{
+			LOG("Colliders near found: %i", found.size());
+		}
+	
+	}
 
 
 	App->map->Draw();

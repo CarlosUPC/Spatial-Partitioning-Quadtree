@@ -4,7 +4,7 @@
 #include "j1Module.h"
 #include "Quadtree.h"
 struct SDL_Texture;
-
+#include <list>
 
 class j1Scene : public j1Module
 {
@@ -39,6 +39,8 @@ public:
 private:
 	SDL_Texture* debug_tex;
 	SDL_Rect* coll;
+	std::list<SDL_Rect*> colliders;
+	std::list<SDL_Rect*> found;
 };
 
 #endif // __j1SCENE_H__

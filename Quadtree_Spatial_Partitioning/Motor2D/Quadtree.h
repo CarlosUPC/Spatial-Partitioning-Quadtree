@@ -16,7 +16,7 @@ public:
 
 	 void Split();
 	 void Insert(T* data);
-	 void Query();
+	 void Query(std::list<T*>& found, T* data);
 	 void Draw();
 
 	 uint GetMaxDepth() const;
@@ -41,7 +41,7 @@ inline Quadtree<T>::Quadtree()
 template<typename T>
 inline Quadtree<T>::Quadtree(SDL_Rect boundary, uint bucketSize, uint depth)
 {
-	root = new QuadNode<T>(boundary,0,0,this);
+	root = new QuadNode<T>(boundary,bucketSize,0,this);
 
 	this->max_bucketSize = bucketSize;
 	this->max_depth = depth;
@@ -66,8 +66,9 @@ inline void Quadtree<T>::Insert(T* data)
 }
 
 template<typename T>
-inline void Quadtree<T>::Query()
+inline void Quadtree<T>::Query(std::list<T*>& found, T* data)
 {
+	root->Query(found, data);
 }
 
 template<typename T>
