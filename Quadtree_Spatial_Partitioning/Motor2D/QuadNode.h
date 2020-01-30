@@ -7,6 +7,7 @@
 
 template<typename T>
 class Quadtree;
+struct Collider;
 
 enum direction_quad
 {
@@ -18,7 +19,7 @@ enum direction_quad
 
 
 template<class T>
-class QuadNode : public Quadtree<T>
+class QuadNode 
 {
 public:
 	
@@ -32,7 +33,7 @@ public:
 
 	void CleanUp();
 
-	bool Contains(const SDL_Rect& rect);
+	bool Contains(const Collider& rect);
 
 private:
 
@@ -43,7 +44,7 @@ private:
 	bool leaf;
 
 	QuadNode* nodes[4];
-	Quadtree* callback = nullptr;
+	Quadtree<T>* callback = nullptr;
 
 	std::list<T*> elements;
 
@@ -212,13 +213,15 @@ template<class T>
 
 	 }
 
+	 this->leaf = true;
+
  }
 
  template<class T>
- inline bool QuadNode<T>::Contains(const SDL_Rect& rect)
+ inline bool QuadNode<T>::Contains(const Collider& col) //TODO: Make it adaptable to different inputs
  {
 	 //Middle point of the tile
-	 iPoint pos(rect.x + rect.w / 2, rect.y + rect.h / 2);
+	 iPoint pos(col.rect.x + col.rect.w / 2, col.rect.y + col.rect.h / 2);
 
 	 if (pos.x < this->boundary.x ||
 		 pos.x > this->boundary.x + this->boundary.w ||

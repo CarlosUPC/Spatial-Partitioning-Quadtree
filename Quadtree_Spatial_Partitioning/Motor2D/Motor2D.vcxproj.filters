@@ -40,6 +40,9 @@
     <ClCompile Include="j1Timer.cpp">
       <Filter>Tools\Timers</Filter>
     </ClCompile>
+    <ClCompile Include="j1Collision.cpp">
+      <Filter>Game Files\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h">
@@ -95,6 +98,9 @@
     </ClInclude>
     <ClInclude Include="QuadNode.h">
       <Filter>Tools\Optimization Ordering</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Collision.h">
+      <Filter>Game Files\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

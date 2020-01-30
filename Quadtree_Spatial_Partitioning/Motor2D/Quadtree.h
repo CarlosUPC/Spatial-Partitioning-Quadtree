@@ -30,6 +30,9 @@ private:
 	uint max_depth;
 	uint max_bucketSize;
 
+public:
+	std::list<T*> found;
+
 };
 
 
@@ -52,6 +55,8 @@ inline Quadtree<T>::Quadtree(SDL_Rect boundary, uint bucketSize, uint depth)
 template<typename T>
 Quadtree<T>::~Quadtree()
 {
+	delete root;
+	root = nullptr;
 }
 
 template<typename T>
@@ -82,8 +87,7 @@ template<typename T>
 inline void Quadtree<T>::CleanUp()
 {
 	root->CleanUp();
-	delete root;
-	root = nullptr;
+	found.clear();
 }
 
 template<typename T>

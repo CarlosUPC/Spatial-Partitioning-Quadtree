@@ -8,7 +8,7 @@
 #include "j1Map.h"
 #include "j1PathFinding.h"
 #include "j1Scene.h"
-
+#include "j1Collision.h"
 
 
 j1Scene::j1Scene() : j1Module()
@@ -55,11 +55,7 @@ bool j1Scene::Start()
 	map.w = App->map->data.width * App->map->data.tile_width;
 	map.h = App->map->data.height * App->map->data.tile_height;
 
-	//coll = new SDL_Rect();
 	
-
-	qtree = new Quadtree<SDL_Rect>({ -App->render->camera.x,0,(int)w,(int)h }, capacity, depth);
-	//qtree->Split();
 	return true;
 }
 
@@ -88,28 +84,13 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		App->win->ZoomOut();
 
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_UP) {
-		qtree->Insert(coll = new SDL_Rect({50,50,300,200}));
-		colliders.push_back(coll);
-	}
-
-
-
-	for (std::list<SDL_Rect*>::iterator it = colliders.begin(); it != colliders.end(); it++) 
-	{
-		found.clear();
-		qtree->Query(found, *it);
-
-		if (found.size() > 0)
-		{
-			LOG("Colliders near found: %i", found.size());
-		}
-	
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_UP) {
+		App->collision->AddCollider(SDL_Rect({ 50,50,300,200 }), COLLIDER_ENTITY, nullptr);
+		App->collision->activeQT = true;
 	}
 
 
 	App->map->Draw();
-	qtree->Draw();
 	
 	return true;
 }
@@ -129,9 +110,6 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-	qtree->CleanUp();
-	delete qtree;
-	qtree = nullptr;
-
+	
 	return true;
 }

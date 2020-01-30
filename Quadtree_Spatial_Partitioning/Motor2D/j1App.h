@@ -15,6 +15,7 @@ class j1Textures;
 class j1Scene;
 class j1Map;
 class j1PathFinding;
+class j1Collision;
 
 class j1App
 {
@@ -78,6 +79,7 @@ public:
 	j1Scene*			scene = NULL;
 	j1Map*				map = NULL;
 	j1PathFinding*		pathfinding = NULL;
+	j1Collision*		collision = NULL;
 
 private:
 
