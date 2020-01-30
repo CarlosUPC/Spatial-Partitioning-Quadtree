@@ -33,7 +33,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	Quadtree<SDL_Rect>* qtree;
+	Quadtree<SDL_Rect>* qtree = nullptr;
 	
 
 private:

@@ -30,6 +30,8 @@ public:
 	void Query(std::list<T*>& found, T* data);
 	void Draw();
 
+	void CleanUp();
+
 	bool Contains(const SDL_Rect& rect);
 
 private:
@@ -179,6 +181,38 @@ template<class T>
 		}
 	}
 }
+
+ template<class T>
+ inline void QuadNode<T>::CleanUp()
+ {
+
+	 if (this->divided)
+	 {
+		 for (int i = 0; i < 4; ++i)
+		 {
+
+			 if (nodes[i] != nullptr)
+			 {
+				 nodes[i]->CleanUp();
+				 RELEASE(nodes[i]);
+			 }
+		 }
+		 this->divided = false;
+	 }
+	 else
+	 {
+		 typename std::list<T>::iterator it;
+
+		 for (std::list<T*>::iterator it = elements.end(); it != elements.begin(); --it)
+		 {
+			 elements.remove(*it);
+			 
+		 }
+		 elements.clear();
+
+	 }
+
+ }
 
  template<class T>
  inline bool QuadNode<T>::Contains(const SDL_Rect& rect)

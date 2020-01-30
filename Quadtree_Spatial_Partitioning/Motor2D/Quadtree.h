@@ -18,16 +18,17 @@ public:
 	 void Insert(T* data);
 	 void Query(std::list<T*>& found, T* data);
 	 void Draw();
+	 void CleanUp();
 
 	 uint GetMaxDepth() const;
 	 uint GetMaxBucketSize() const;
 
-	uint max_bucketSize;
 private:
 	
 
 	QuadNode<T>* root;
 	uint max_depth;
+	uint max_bucketSize;
 
 };
 
@@ -75,6 +76,14 @@ template<typename T>
 inline void Quadtree<T>::Draw()
 {
 	root->Draw();
+}
+
+template<typename T>
+inline void Quadtree<T>::CleanUp()
+{
+	root->CleanUp();
+	delete root;
+	root = nullptr;
 }
 
 template<typename T>

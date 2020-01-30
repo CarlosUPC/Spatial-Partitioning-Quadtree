@@ -129,6 +129,9 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
+	qtree->CleanUp();
+	delete qtree;
+	qtree = nullptr;
 
 	return true;
 }
