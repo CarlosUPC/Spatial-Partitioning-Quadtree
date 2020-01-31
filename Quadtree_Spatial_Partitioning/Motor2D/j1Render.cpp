@@ -102,6 +102,12 @@ SDL_Rect j1Render::CameraInitPos() {
 	return camera;
 }
 
+void j1Render::SetCameraPos(float x, float y)
+{
+	this->camera.x = x;
+	this->camera.y = y;
+}
+
 // Load Game State
 bool j1Render::Load(pugi::xml_node& data)
 {

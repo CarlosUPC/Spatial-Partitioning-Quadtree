@@ -24,7 +24,7 @@ j1Scene::~j1Scene()
 // Called before render is available
 bool j1Scene::Awake()
 {
-	LOG("Loading Scene");
+	LOG("Awaking Scene");
 	bool ret = true;
 
 	return ret;
@@ -33,36 +33,14 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	/*if(App->map->Load("iso.tmx") == true)
-	{
-		int w, h;
-		uchar* data = NULL;
-		if(App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
-
-		RELEASE_ARRAY(data);
-	}*/
-	bool ret = false;
-
-	ret = App->map->Load("iso.tmx"); //Load first map in config.xml
-
-	App->render->camera = App->render->CameraInitPos();
-
-	//debug_tex = App->tex->Load("maps/path2.png");
-
-
-	uint w, h;
-	App->win->GetWindowSize(w, h);
-	uint capacity = 4;
-	uint depth = 4;
-	SDL_Rect map;
-	map.x = -App->map->data.width * App->map->data.tile_width / 2;
-	map.y = 0;
-	map.w = App->map->data.width * App->map->data.tile_width;
-	map.h = App->map->data.height * App->map->data.tile_height;
-
 	
-	return true;
+	LOG("Loading Scene");
+	bool ret = true;
+
+	ret = App->map->Load("iso.tmx"); 
+	App->render->SetCameraPos(App->map->data.width * App->map->data.tile_width / 2 - 100, 100);
+
+	return ret;
 }
 
 // Called each loop iteration
@@ -95,17 +73,13 @@ bool j1Scene::Update(float dt)
 	App->input->GetMousePosition(x, y);
 	iPoint coords = App->render->ScreenToWorld(x, y);
 
-	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
-		App->entities->CreateEntity(coords.x, coords.y, ENTITY_TYPE::ENT_DYNAMIC, "dynamic_hero");
-		//App->collision->updateQtree = true;
-
-	}
-	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) 
 		App->entities->CreateEntity(coords.x, coords.y, ENTITY_TYPE::ENT_STATIC, "static_hero");
-		//App->collision->updateQtree = true;
 
-	}
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) 
+		App->entities->CreateEntity(coords.x, coords.y, ENTITY_TYPE::ENT_DYNAMIC, "dynamic_hero");
 
+	
 	App->map->Draw();
 	
 	return true;

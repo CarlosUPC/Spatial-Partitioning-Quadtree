@@ -7,6 +7,7 @@
 #include "p2Log.h"
 #include "p2Defs.h"
 #include "j1EntityManager.h"
+#include "j1Map.h"
 
 
 j1Collision::j1Collision() : j1Module()
@@ -36,7 +37,7 @@ bool j1Collision::Start()
 
 	uint capacity = 4;
 	uint depth = 4;
-	qtree = new Quadtree<Collider>({ -App->render->camera.x,0,(int)w,(int)h }, capacity, depth);
+	qtree = new Quadtree<Collider>({ -App->render->camera.x - 60,App->render->camera.y - 90, App->map->data.width * App->map->data.tile_width, App->map->data.height * App->map->data.tile_height }, capacity, depth);
 
 	return true;
 }

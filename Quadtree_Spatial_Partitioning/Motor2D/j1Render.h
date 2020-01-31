@@ -32,6 +32,7 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 	SDL_Rect CameraInitPos();
+	void SetCameraPos(float x, float y);
 
 	// Blit
 	//TODO 1: Create IsOnCamera function that returns true if a RECTANGLE is on camera's viewport
