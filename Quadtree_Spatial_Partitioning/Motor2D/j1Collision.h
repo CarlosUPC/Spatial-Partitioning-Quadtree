@@ -46,7 +46,7 @@ public:
 	virtual ~j1Collision();
 
 	// Called when before render is available
-	bool Awake(pugi::xml_node&);
+	bool Awake(pugi::xml_node& config);
 
 	// Call before first frame
 	bool Start();
@@ -82,6 +82,9 @@ private:
 
 	
 	Quadtree<Collider>* qtree = nullptr;
+	SDL_Rect qtree_rect;
+	uint capacity;
+	uint depth;
 
 public:
 	bool updateQtree = false;

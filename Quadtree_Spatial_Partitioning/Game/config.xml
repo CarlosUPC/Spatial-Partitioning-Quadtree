@@ -27,4 +27,8 @@
     <folder>maps/</folder>
   </map>
 
+  <collision>
+    <quadtree qt_x="-760" qt_y="10" qt_width="1600" qt_height="800" capacity="4" depth="4"/>
+  </collision>
+
 </config>

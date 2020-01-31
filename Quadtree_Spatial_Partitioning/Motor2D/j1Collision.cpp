@@ -24,20 +24,31 @@ j1Collision::~j1Collision()
 }
 
 
-bool j1Collision::Awake(pugi::xml_node&)
+bool j1Collision::Awake(pugi::xml_node& config)
 {
+	LOG("Awaking Collision");
+
+	//XML-based Quadtree Configuration
+	qtree_rect.x = config.child("quadtree").attribute("qt_x").as_float();
+	qtree_rect.y = config.child("quadtree").attribute("qt_y").as_float();
+	qtree_rect.w = config.child("quadtree").attribute("qt_width").as_float();
+	qtree_rect.h = config.child("quadtree").attribute("qt_height").as_float();
+
+	capacity = config.child("quadtree").attribute("capacity").as_int();
+	depth = config.child("quadtree").attribute("depth").as_int();
+
 	return true;
 }
 
 bool j1Collision::Start()
 {
-	
-	uint w, h;
-	App->win->GetWindowSize(w, h);
+	LOG("Loading Collision");
 
-	uint capacity = 4;
-	uint depth = 4;
-	qtree = new Quadtree<Collider>({ -App->render->camera.x - 60,App->render->camera.y - 90, App->map->data.width * App->map->data.tile_width, App->map->data.height * App->map->data.tile_height }, capacity, depth);
+	//Setting Quadtree 
+	//qtree_rect = { -App->render->camera.x - 60,App->render->camera.y - 90, App->map->data.width * App->map->data.tile_width, App->map->data.height * App->map->data.tile_height };
+
+	//Create Quadtree
+	qtree = new Quadtree<Collider>({qtree_rect.x, qtree_rect.y, qtree_rect.w, qtree_rect.h}, capacity, depth);
 
 	return true;
 }
@@ -185,18 +196,12 @@ double j1Collision::QuadTreeChecking()
 	quadTreeTimer.Start();
 
 	
-	/*if (updateQtree)
-	{*/
-		qtree->CleanUp();
+	qtree->CleanUp();
 
-		for (std::list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); it++) 
-			qtree->Insert(*it);
+	for (std::list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); it++) 
+		qtree->Insert(*it);
 
-		//updateQtree = false;
-
-	//}
-	
-
+		
 	quadTreeChecks = 0;
 
 	for (std::list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); it++)

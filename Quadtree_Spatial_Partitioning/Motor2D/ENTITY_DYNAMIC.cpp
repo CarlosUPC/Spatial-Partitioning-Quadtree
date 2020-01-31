@@ -64,14 +64,14 @@ bool ENTITY_DYNAMIC::Update(float dt)
 	{
 		if (left)
 		{
-			position.x -= 20 * dt;
-			position.y -= 20 * dt;
+			position.x -= 70 * dt;
+			position.y -= 70 * dt;
 			flip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
 		}
 		else
 		{
-			position.x += 20 * dt;
-			position.y += 20 * dt;
+			position.x += 70 * dt;
+			position.y += 70 * dt;
 			flip = SDL_RendererFlip::SDL_FLIP_NONE;
 		}
 	}
