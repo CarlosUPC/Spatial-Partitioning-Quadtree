@@ -35,13 +35,8 @@ public:
 	void Draw();
 
 	void CleanUp();
-
-	//bool Contains(const T& rect);
 	//iPoint GetDataCoords(T data);
-
-	bool Contains(const Collider& data);
-	bool Contains(const j1Entity& data);
-	bool Contains(const TileSet& data);
+	bool Contains(const T& data);
 
 private:
 
@@ -226,48 +221,45 @@ template<class T>
  }
 
  template<class T>
- inline bool QuadNode<T>::Contains(const Collider& data) 
+ inline bool QuadNode<T>::Contains(const T& data)
  {
-	 //Middle point of the tile
-	 iPoint pos(data.rect.x + data.rect.w / 2, data.rect.y + data.rect.h / 2);
+	 /*Middle point of the tile
+	  iPoint pos(data.rect.x + data.rect.w / 2, data.rect.y + data.rect.h / 2);
 
-	 if (pos.x < this->boundary.x ||
-		 pos.x > this->boundary.x + this->boundary.w ||
-		 pos.y < this->boundary.y ||
-		 pos.y > this->boundary.y + this->boundary.h)
-		 return false;
+	  if (pos.x < this->boundary.x ||
+	 	 pos.x > this->boundary.x + this->boundary.w ||
+	 	 pos.y < this->boundary.y ||
+	 	 pos.y > this->boundary.y + this->boundary.h)
+	 	 return false;
+	  
+	  return true;*/
 
-	 return true;
+	  return (data.CheckCollision(this->boundary));
+
+	
  }
 
- template<class T>
- inline bool QuadNode<T>::Contains(const j1Entity& data)
- {
-	 return false;
- }
 
- template<class T>
- inline bool QuadNode<T>::Contains(const TileSet& data)
- {
-	 return false;
- }
 
 
  //----------------------TESTING----------------------//
 
- /*
- template<class T>
- inline iPoint QuadNode<T>::GetDataCoords(T data)
- {
-	 bool value = false;
-	 
-	 if(std::is_same<T, Collider>::value)
-		 return iPoint(data.rect.x + data.rect.w / 2, data.rect.y + data.rect.h / 2);
+ //
+ //template<class T>
+ //inline iPoint QuadNode<T>::GetDataCoords(T data)
+ //{
+	// bool value = false;
+	// 
+	// if(std::is_same<T, Collider>::value)
+	//	 return iPoint(data.rect.x + data.rect.w / 2, data.rect.y + data.rect.h / 2);
 
-	 else {
-		 return(iPoint(0, 0));
-		 LOG("No element detected");
-	 }
+	// else {
+	//	 return(iPoint(0, 0));
+	//	 LOG("No element detected");
+	// }
 
- }
- */
+	//
+ //}
+
+ 
+ 
