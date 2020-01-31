@@ -81,13 +81,13 @@ private:
 	j1PerfTimer bruteForceTimer;j1PerfTimer quadTreeTimer;
 
 	
+	//-----------Quadtree-------------// 
 	Quadtree<Collider>* qtree = nullptr;
 	SDL_Rect qtree_rect;
 	uint capacity;
 	uint depth;
 
-public:
-	bool updateQtree = false;
+	
 };
 
 

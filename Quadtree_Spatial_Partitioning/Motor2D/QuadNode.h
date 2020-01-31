@@ -4,10 +4,13 @@
 #include "p2Defs.h"
 #include "SDL/include/SDL.h"
 #include <list>
+#include "p2Log.h"
 
 template<typename T>
 class Quadtree;
 struct Collider;
+class j1Entity;
+struct TileSet;
 
 enum direction_quad
 {
@@ -33,7 +36,12 @@ public:
 
 	void CleanUp();
 
-	bool Contains(const Collider& rect);
+	//bool Contains(const T& rect);
+	//iPoint GetDataCoords(T data);
+
+	bool Contains(const Collider& data);
+	bool Contains(const j1Entity& data);
+	bool Contains(const TileSet& data);
 
 private:
 
@@ -218,10 +226,10 @@ template<class T>
  }
 
  template<class T>
- inline bool QuadNode<T>::Contains(const Collider& col) //TODO: Make it adaptable to different inputs
+ inline bool QuadNode<T>::Contains(const Collider& data) 
  {
 	 //Middle point of the tile
-	 iPoint pos(col.rect.x + col.rect.w / 2, col.rect.y + col.rect.h / 2);
+	 iPoint pos(data.rect.x + data.rect.w / 2, data.rect.y + data.rect.h / 2);
 
 	 if (pos.x < this->boundary.x ||
 		 pos.x > this->boundary.x + this->boundary.w ||
@@ -231,3 +239,35 @@ template<class T>
 
 	 return true;
  }
+
+ template<class T>
+ inline bool QuadNode<T>::Contains(const j1Entity& data)
+ {
+	 return false;
+ }
+
+ template<class T>
+ inline bool QuadNode<T>::Contains(const TileSet& data)
+ {
+	 return false;
+ }
+
+
+ //----------------------TESTING----------------------//
+
+ /*
+ template<class T>
+ inline iPoint QuadNode<T>::GetDataCoords(T data)
+ {
+	 bool value = false;
+	 
+	 if(std::is_same<T, Collider>::value)
+		 return iPoint(data.rect.x + data.rect.w / 2, data.rect.y + data.rect.h / 2);
+
+	 else {
+		 return(iPoint(0, 0));
+		 LOG("No element detected");
+	 }
+
+ }
+ */

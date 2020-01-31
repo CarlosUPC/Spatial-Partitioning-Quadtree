@@ -5,6 +5,9 @@
 
 #include "QuadNode.h"
 
+
+
+
 template<typename T> 
 class Quadtree
 {
@@ -22,6 +25,8 @@ public:
 
 	 uint GetMaxDepth() const;
 	 uint GetMaxBucketSize() const;
+
+	
 
 private:
 	
@@ -101,3 +106,4 @@ inline uint Quadtree<T>::GetMaxBucketSize() const
 {
 	return max_bucketSize;
 }
+

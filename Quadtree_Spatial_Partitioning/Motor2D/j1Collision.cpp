@@ -202,6 +202,7 @@ double j1Collision::QuadTreeChecking()
 		qtree->Insert(*it);
 
 		
+
 	quadTreeChecks = 0;
 
 	for (std::list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); it++)
