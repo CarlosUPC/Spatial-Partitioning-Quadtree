@@ -17,7 +17,7 @@ ENTITY_STATIC::~ENTITY_STATIC()
 
 bool ENTITY_STATIC::Start()
 {
-	texture = App->tex->Load("entities/hero.png");
+	texture = App->tex->Load("entities/static.png");
 
 	anim_run.PushBack({ 17,33,27,30 });
 	anim_run.PushBack({ 81,36,27,28 });

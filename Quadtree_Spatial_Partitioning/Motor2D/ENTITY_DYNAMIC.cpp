@@ -17,7 +17,7 @@ ENTITY_DYNAMIC::~ENTITY_DYNAMIC()
 
 bool ENTITY_DYNAMIC::Start()
 {
-	texture = App->tex->Load("entities/hero.png");
+	texture = App->tex->Load("entities/dynamic.png");
 
 	anim_run.PushBack({ 17,33,27,30 });
 	anim_run.PushBack({ 81,36,27,28 });

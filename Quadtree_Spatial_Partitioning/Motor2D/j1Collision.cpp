@@ -154,7 +154,7 @@ void j1Collision::DebugDraw()
 			continue;
 		}
 
-		App->render->DrawQuad((*it)->rect, 255, 255, 255, 255, false);
+		App->render->DrawQuad((*it)->rect, 240, 255, 0, 255, false);
 	}
 }
 
@@ -228,7 +228,7 @@ double j1Collision::QuadTreeChecking()
 				quadTreeChecks++;
 				
 				App->render->DrawQuad((*it2)->rect, 0, 255, 0, 255, false);
-				App->render->DrawLine((*it)->rect.x + (*it)->rect.w / 2, (*it)->rect.y + (*it)->rect.h / 2, (*it2)->rect.x + (*it2)->rect.w / 2, (*it2)->rect.y + (*it2)->rect.h / 2, 255, 255, 255, 255);
+				App->render->DrawLine((*it)->rect.x + (*it)->rect.w / 2, (*it)->rect.y + (*it)->rect.h / 2, (*it2)->rect.x + (*it2)->rect.w / 2, (*it2)->rect.y + (*it2)->rect.h / 2, 0, 255, 255, 255);
 			}
 
 		}
