@@ -23,7 +23,7 @@ public:
 public:
 
 	j1Entity *CreateEntity(int PositionX, int PositionY,ENTITY_TYPE entityType, std::string name);
-	void DestroyEntity(j1Entity *Entity);
+	void DeleteEntity(j1Entity *Entity);
 	static bool SortByYPos(const j1Entity& ent1, const j1Entity& ent2);
 
 public:

@@ -4,7 +4,8 @@
 #include "j1Scene.h"
 #include "j1Window.h"
 #include "j1Render.h"
-#include "ENTITY_HERO.h"
+#include "ENTITY_DYNAMIC.h"
+#include "ENTITY_STATIC.h"
 #include <algorithm>
 
 j1EntityManager::j1EntityManager()
@@ -21,8 +22,7 @@ j1EntityManager::~j1EntityManager()
 bool j1EntityManager::Awake(pugi::xml_node&) {
 
 	LOG("Awaking all entities");
-	//times_per_sec = TIMES_PER_SEC;
-	//update_ms_cycle = 1.0f / (float)times_per_sec;
+	
 
 	return true;
 }
@@ -44,71 +44,42 @@ bool j1EntityManager::Start() {
 
 bool j1EntityManager::PreUpdate() {
 
-	//do_logic = false;
+	
 	return true;
 }
 
 
 bool j1EntityManager::Update(float dt) {
 
-	/*
-	accumulated_time += dt;
-
-	if (accumulated_time >= update_ms_cycle)
-		do_logic = true;
-
-	if (do_logic == true) {
-
-		if (entities.size() > 0) {
-
-			std::list<j1Entity*>::iterator item = entities.begin();
-			for (; *item != nullptr; item = next(item))
-				(*item)->FixUpdate(dt);
-		}
-	}
-
-	accumulated_time -= update_ms_cycle;
-
-	if (entities.size() > 0) {
-
-		std::list<j1Entity*>::iterator item = entities.begin();
-		for (; *item != nullptr; item = next(item))
-			(*item)->Update(dt);
-	}
-	*/
-
-	uint numEntities = 0;
-	//std::list<j1Entity*> draw_entities;
+	
+	std::list<j1Entity*> draw_entities;
 
 	for (std::list<j1Entity*>::iterator item = entities.begin(); item != entities.end(); ++item) {
 		
 		if (*item != nullptr) 
 		{
-			++numEntities;
+			
 			(*item)->Update(dt);
-			(*item)->Draw();
 		
-			/*if (App->render->IsOnCamera((*item)->position.x, (*item)->position.y, (*item)->size.x, (*item)->size.y)) 
-				draw_entities.push_back(*item);*/
+			if (App->render->IsOnCamera((*item)->position.x, (*item)->position.y, (*item)->size.x, (*item)->size.y)) 
+				draw_entities.push_back(*item);
 			
 		}
 	}
 
-	//std::sort(draw_entities.begin(), draw_entities.end(), j1EntityManager::SortByYPos);
-
-
-	/*for (std::list<j1Entity*>::iterator item = draw_entities.begin(); item != draw_entities.end(); ++item) {
-
+	for (std::list<j1Entity*>::iterator item = draw_entities.begin(); item != draw_entities.end(); ++item) 
+	{
+		(*item)->Draw();
 	}
 
-	draw_entities.clear();*/
 
 	static char title[30];
-	sprintf_s(title, 30, " | Entities: %i", numEntities);
+	sprintf_s(title, 30, " | Entities drawn: %i", draw_entities.size());
 	App->win->ConcatTitle(title);
 
 	
-	numEntities = 0;
+	draw_entities.clear();
+	
 	return true;
 }
 
@@ -136,14 +107,16 @@ bool j1EntityManager::CleanUp() {
 
 j1Entity *j1EntityManager::CreateEntity(int xpos, int ypos, ENTITY_TYPE type, std::string name) {
 
-	static_assert(ENTITY_TYPE::UNKNOWN == ENTITY_TYPE(1), "UPDATE ENTITY TYPES");
 	
 	j1Entity* entity = nullptr;
 
 	switch (type) {
 
-		case ENTITY_TYPE::ENT_HERO:
-			entity = new ENTITY_HERO(xpos, ypos,  type,  name);
+		case ENTITY_TYPE::ENT_DYNAMIC:
+			entity = new ENTITY_DYNAMIC(xpos, ypos,  type,  name);
+			break;
+		case ENTITY_TYPE::ENT_STATIC:
+			entity = new ENTITY_STATIC(xpos, ypos, type, name);
 			break;
 
 		default:
@@ -156,13 +129,12 @@ j1Entity *j1EntityManager::CreateEntity(int xpos, int ypos, ENTITY_TYPE type, st
 }
 
 
-void j1EntityManager::DestroyEntity(j1Entity* entity) 
+void j1EntityManager::DeleteEntity(j1Entity* entity) 
 {
 	for (std::list<j1Entity*>::iterator item = entities.begin(); item != entities.end(); ++item) 
 	{	
 		if ((*item) == entity) 
 		{	
-			//(*item)->DestroyEntity();
 			RELEASE(*item);
 			*item = nullptr;
 			entities.erase(item);

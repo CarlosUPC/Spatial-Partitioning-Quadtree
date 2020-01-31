@@ -6,14 +6,14 @@
 
 struct SDL_Texture;
 
-class ENTITY_HERO : public j1Entity
+class ENTITY_DYNAMIC : public j1Entity
 {
 
 public:
 
-	ENTITY_HERO(int xpos, int ypos, ENTITY_TYPE type, std::string name);
+	ENTITY_DYNAMIC(int xpos, int ypos, ENTITY_TYPE type, std::string name);
 
-	~ENTITY_HERO();
+	~ENTITY_DYNAMIC();
 
 	bool Start();
 	bool Update(float dt);

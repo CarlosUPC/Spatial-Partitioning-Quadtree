@@ -6,6 +6,7 @@
 #include "j1Entity.h"
 #include "p2Log.h"
 #include "p2Defs.h"
+#include "j1EntityManager.h"
 
 
 j1Collision::j1Collision() : j1Module()
@@ -56,11 +57,11 @@ bool j1Collision::PreUpdate()
 bool j1Collision::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
-		debug = !debug;
+		debugCollider = !debugCollider;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
-		optimization = !optimization;
+		enableQT = !enableQT;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
@@ -69,12 +70,12 @@ bool j1Collision::Update(float dt)
 
 	
 
-	if (!optimization) //-------- BRUTE FORCE METHOD ---------//
+	if (!enableQT) //-------- BRUTE FORCE METHOD ---------//
 	{
 		bruteForceTime = BruteForceChecking(); 
 
 		static char title[350];
-		sprintf_s(title, "Colliders: %d | Brute force iterations: %d Time: %.5f ms ", colliders.size(), bruteForceChecks, bruteForceTime);
+		sprintf_s(title, "Entities: %d | Colliders: %d | Brute force iterations: %d Time: %.5f ms | FPS: %.2f ", App->entities->entities.size() , colliders.size(), bruteForceChecks, bruteForceTime, App->GetFPS());
 		App->win->SetTitle(title);
 
 	}
@@ -83,12 +84,12 @@ bool j1Collision::Update(float dt)
 		quadTreeTime = QuadTreeChecking(); 
 
 		static char title[350];
-		sprintf_s(title, "Colliders: %d | Quadtree iterations: %d Time: %.5f ms ", colliders.size(), quadTreeChecks, quadTreeTime);
+		sprintf_s(title, "Entities: %d | Colliders: %d | Quadtree iterations: %d Time: %.5f ms | FPS: %.2f ", App->entities->entities.size(), colliders.size(), quadTreeChecks, quadTreeTime, App->GetFPS());
 		App->win->SetTitle(title);
 
 	}
 
-	if (debug) 
+	if (debugCollider) 
 		DebugDraw();
 
 	if(debugQT)
@@ -218,7 +219,7 @@ double j1Collision::QuadTreeChecking()
 
 				}
 				quadTreeChecks++;
-				//TODO 4
+				
 				App->render->DrawQuad((*it2)->rect, 0, 255, 0, 255, false);
 				App->render->DrawLine((*it)->rect.x + (*it)->rect.w / 2, (*it)->rect.y + (*it)->rect.h / 2, (*it2)->rect.x + (*it2)->rect.w / 2, (*it2)->rect.y + (*it2)->rect.h / 2, 255, 255, 255, 255);
 			}

@@ -61,8 +61,10 @@ void j1Entity::DestroyEntity()
 
 void j1Entity::OnCollision(Collider* collider1, Collider* collider2)
 {
-	if (anim_coll.Finished())
+	if (anim_coll.Finished()) {
 		anim_coll.reset();
+		
+	}
 
 	current_anim = &anim_coll;
 }

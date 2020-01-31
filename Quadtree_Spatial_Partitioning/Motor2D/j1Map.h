@@ -1,56 +1,36 @@
 #ifndef __j1MAP_H__
 #define __j1MAP_H__
 
-#include "PugiXml/src/pugixml.hpp"
+#include <list>
+#include <string>
 #include "j1Module.h"
+#include "j1Collision.h"
 
-struct Properties
-{
-	struct Property
-	{
-		std::string name;
-		int value;
-	};
-
-	~Properties()
-	{
-		std::list<Property*>::iterator item = list.begin();
-
-		while(item != list.end())
-		{
-			RELEASE(*item)
-			item = next(item);
-		}
-
-		list.clear();
-	}
-
-	int Get(const char* name, int default_value = 0) const;
-
-	std::list<Property*>	list;
-};
+struct SDL_Texture;
 
 // ----------------------------------------------------
-struct MapLayer
+
+struct LayerProperties
 {
+	bool draw = true;
+};
+
+struct MapProperties
+{
+	std::string objects_path;
+};
+
+struct MapLayer {
 	std::string	name;
-	int			width;
-	int			height;
-	uint*		data;
-	Properties	properties;
+	uint		width = 0;
+	uint		height = 0;
+	uint* tiles = nullptr;
+	bool		visible = true;
+	LayerProperties	properties;
 
-	MapLayer() : data(NULL)
-	{}
+	~MapLayer() { delete[] tiles; tiles = nullptr; }
 
-	~MapLayer()
-	{
-		RELEASE(data);
-	}
-
-	inline uint Get(int x, int y) const
-	{
-		return data[(y*width) + x];
-	}
+	inline uint Get(int x, int y) const;
 };
 
 // ----------------------------------------------------
@@ -64,13 +44,14 @@ struct TileSet
 	int					spacing;
 	int					tile_width;
 	int					tile_height;
-	SDL_Texture*		texture;
+	SDL_Texture* texture;
 	int					tex_width;
 	int					tex_height;
 	int					num_tiles_width;
 	int					num_tiles_height;
 	int					offset_x;
 	int					offset_y;
+
 };
 
 enum MapTypes
@@ -83,14 +64,16 @@ enum MapTypes
 // ----------------------------------------------------
 struct MapData
 {
-	int					width;
-	int					height;
-	int					tile_width;
-	int					tile_height;
-	SDL_Color			background_color;
-	MapTypes			type;
-	std::list<TileSet*>	tilesets;
-	std::list<MapLayer*>layers;
+	int							width;
+	int							height;
+	int							tile_width;
+	int							tile_height;
+	MapProperties				properties;
+	SDL_Color					background_color;
+	MapTypes					type;
+	std::list<TileSet*>			tilesets;
+	std::list<MapLayer*>		layers;
+	std::list<Collider*>		mapColliders;
 };
 
 // ----------------------------------------------------
@@ -117,27 +100,36 @@ public:
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
-	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
+
+	//void AddCollidersMap();
+
 
 private:
 
 	bool LoadMap();
+	bool LoadMapProperties(pugi::xml_node& node);
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
-	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
-	bool LoadProperties(pugi::xml_node& node, Properties& properties);
+	bool LoadLayer(pugi::xml_node& layer_node, MapLayer* layer);
+	bool LoadObjects(pugi::xml_node& layer_node, SDL_Rect& rect);
+	void LoadLayerProperties(pugi::xml_node& properties_node, MapLayer* layer = nullptr);
 
 	TileSet* GetTilesetFromTileId(int id) const;
 
 public:
 
-	MapData data;
+	MapData			data;
+	std::string		sceneName;
+
+	bool			draw_grid = false;
 
 private:
 
 	pugi::xml_document	map_file;
 	std::string			folder;
 	bool				map_loaded;
+	SDL_Texture* grid = nullptr;
+
 };
 
 #endif // __j1MAP_H__

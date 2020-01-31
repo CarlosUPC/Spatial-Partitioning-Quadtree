@@ -49,6 +49,7 @@ public:
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 	float GetDT() const;
+	float GetFPS() const;
 
 private:
 
@@ -94,16 +95,18 @@ private:
 	std::list<j1Module*>modules;
 
 
-	uint				frame_count = 0;
-	j1Timer				time_since_start;
+	uint32				framerate_cap = 0;
+	bool				cap_framerate = true;
+	
+	uint64				frame_count = 0;
+	j1Timer				startup_time;
 	j1Timer				frame_time;
 	j1Timer				last_sec_frame_time;
-
 	uint32				last_sec_frame_count = 0;
 	uint32				prev_last_sec_frame_count = 0;
-	float				dt = 0.0f;
-	int					capped_ms = -1;
-
+	uint				frames;
+	float					dt;
+	float               avg_fps;
 };
 
 extern j1App* App;

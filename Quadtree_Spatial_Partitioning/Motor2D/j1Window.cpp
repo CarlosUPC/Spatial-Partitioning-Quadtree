@@ -126,3 +126,7 @@ void j1Window::ZoomOut()
 {
 	scale = 1;
 }
+void j1Window::ClearTitle()
+{
+	title.clear();
+}

@@ -39,7 +39,8 @@ enum class ENTITY_STATE {
 
 enum class ENTITY_TYPE {
 
-	ENT_HERO,
+	ENT_DYNAMIC,
+	ENT_STATIC,
 	UNKNOWN = 1
 };
 
@@ -93,7 +94,7 @@ public:
 	SDL_Texture *texture = nullptr;
 
 protected:
-	bool left = false;
+	bool left;
 
 };
 

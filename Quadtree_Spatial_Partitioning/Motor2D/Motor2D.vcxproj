@@ -76,7 +76,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ENTITY_HERO.cpp" />
+    <ClCompile Include="ENTITY_DYNAMIC.cpp" />
+    <ClCompile Include="ENTITY_STATIC.cpp" />
     <ClCompile Include="j1Collision.cpp" />
     <ClCompile Include="j1Entity.cpp" />
     <ClCompile Include="j1EntityManager.cpp" />
@@ -96,7 +97,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="ENTITY_HERO.h" />
+    <ClInclude Include="ENTITY_DYNAMIC.h" />
+    <ClInclude Include="ENTITY_STATIC.h" />
     <ClInclude Include="j1Collision.h" />
     <ClInclude Include="j1Entity.h" />
     <ClInclude Include="j1EntityManager.h" />

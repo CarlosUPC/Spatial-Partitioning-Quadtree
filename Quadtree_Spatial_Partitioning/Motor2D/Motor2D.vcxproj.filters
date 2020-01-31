@@ -49,7 +49,10 @@
     <ClCompile Include="j1Entity.cpp">
       <Filter>Game Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="ENTITY_HERO.cpp">
+    <ClCompile Include="ENTITY_STATIC.cpp">
+      <Filter>Game Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ENTITY_DYNAMIC.cpp">
       <Filter>Game Files\Entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -120,7 +123,10 @@
     <ClInclude Include="Animation.h">
       <Filter>Game Files\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ENTITY_HERO.h">
+    <ClInclude Include="ENTITY_STATIC.h">
+      <Filter>Game Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ENTITY_DYNAMIC.h">
       <Filter>Game Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

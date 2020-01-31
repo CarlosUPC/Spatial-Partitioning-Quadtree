@@ -69,8 +69,8 @@ public:
 
 private:
 
-	bool optimization = false;
-	bool debug = false;
+	bool enableQT = false;
+	bool debugCollider = false;
 	bool debugQT = false;
 
 	std::list<Collider*> colliders;

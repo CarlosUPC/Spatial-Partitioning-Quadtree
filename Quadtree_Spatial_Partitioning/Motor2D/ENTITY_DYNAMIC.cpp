@@ -1,21 +1,21 @@
 #include "j1App.h"
-#include "ENTITY_HERO.h"
+#include "ENTITY_DYNAMIC.h"
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Scene.h"
 #include "j1Map.h"
 #include "j1Collision.h"
 
-ENTITY_HERO::ENTITY_HERO(int xpos, int ypos, ENTITY_TYPE type, std::string name) : j1Entity(xpos, ypos, type, name)
+ENTITY_DYNAMIC::ENTITY_DYNAMIC(int xpos, int ypos, ENTITY_TYPE type, std::string name) : j1Entity(xpos, ypos, type, name)
 {
 	this->Start();
 }
 
-ENTITY_HERO::~ENTITY_HERO()
+ENTITY_DYNAMIC::~ENTITY_DYNAMIC()
 {
 }
 
-bool ENTITY_HERO::Start()
+bool ENTITY_DYNAMIC::Start()
 {
 	texture = App->tex->Load("entities/hero.png");
 
@@ -24,12 +24,12 @@ bool ENTITY_HERO::Start()
 	anim_run.speed = 4.5;
 	anim_run.loop = true;
 
-	anim_run.PushBack({ 16,82,28,31 });
-	anim_run.PushBack({ 83,83,23,30 });
-	anim_run.PushBack({ 149,82,21,31 });
-	anim_run.PushBack({ 213,81,28,32 });
-	anim_run.speed = 6;
-	anim_run.loop = false;
+	anim_coll.PushBack({ 16,82,28,31 });
+	anim_coll.PushBack({ 83,83,23,30 });
+	anim_coll.PushBack({ 149,82,21,31 });
+	anim_coll.PushBack({ 213,81,28,32 });
+	anim_coll.speed = 6;
+	anim_coll.loop = false;
 
 
 	pivot.create(27 / 2, 25);
@@ -42,7 +42,7 @@ bool ENTITY_HERO::Start()
 	return true;
 }
 
-bool ENTITY_HERO::Update(float dt)
+bool ENTITY_DYNAMIC::Update(float dt)
 {
 	
 	current_anim->GetCurrentFrame(dt);
@@ -75,24 +75,27 @@ bool ENTITY_HERO::Update(float dt)
 			flip = SDL_RendererFlip::SDL_FLIP_NONE;
 		}
 	}
+
 	if (current_anim->Finished())
 		current_anim = &anim_run;
+
 
 	return true;
 }
 
 // Called before quitting
-bool ENTITY_HERO::CleanUp()
+bool ENTITY_DYNAMIC::CleanUp()
 {
-	return App->tex->UnLoad(texture);
+	 App->tex->UnLoad(texture);
 
-	if (collider != nullptr)
-		collider->to_delete = true;
+	if (this->collider != nullptr)
+		this->collider->to_delete = true;
 
 	current_anim = nullptr;
 
+	return true;
 }
 
-void ENTITY_HERO::OnCollision(Collider* c1, Collider* c2)
-{}
-
+void ENTITY_DYNAMIC::OnCollision(Collider* c1, Collider* c2)
+{
+}

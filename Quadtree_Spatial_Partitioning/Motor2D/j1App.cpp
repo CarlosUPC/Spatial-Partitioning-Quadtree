@@ -19,6 +19,7 @@
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
+	frames = 0;
 
 	input = new j1Input();
 	win = new j1Window();
@@ -80,12 +81,8 @@ bool j1App::Awake()
 		app_config = config.child("app");
 		title.assign(app_config.child("title").child_value());
 		organization.assign(app_config.child("organization").child_value());
-	
-		int cap = app_config.attribute("framerate_cap").as_int(-1);
+		framerate_cap = 1000 / app_config.attribute("framerate_cap").as_uint();
 
-		if (cap > 0)
-			capped_ms = 1000 / cap;
-	
 	}
 
 	if(ret == true)
@@ -116,7 +113,7 @@ bool j1App::Start()
 		item = next(item);
 	}
 
-	time_since_start.Start();
+	
 	return ret;
 }
 
@@ -161,9 +158,11 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 // ---------------------------------------------
 void j1App::PrepareUpdate()
 {
+	if (App->input->GetKey(SDL_SCANCODE_F11) == j1KeyState::KEY_DOWN)
+		cap_framerate = !cap_framerate;
+
 	frame_count++;
 	last_sec_frame_count++;
-
 	dt = frame_time.ReadSec();
 	frame_time.Start();
 }
@@ -171,22 +170,24 @@ void j1App::PrepareUpdate()
 // ---------------------------------------------
 void j1App::FinishUpdate()
 {
-	//Framerate Calcs
-	if (last_sec_frame_time.Read() > 1000) {
+	// Framerate calculations --
 
+	if (last_sec_frame_time.Read() > 1000)
+	{
 		last_sec_frame_time.Start();
 		prev_last_sec_frame_count = last_sec_frame_count;
 		last_sec_frame_count = 0;
 	}
 
-	//For performance information purposes
-	float avg_fps = float(frame_count) / time_since_start.ReadSec();
-	float secs_since_start = time_since_start.ReadSec();
+	 avg_fps = float(frame_count) / startup_time.ReadSec();
+	float seconds_since_startup = startup_time.ReadSec();
 	uint32 last_frame_ms = frame_time.Read();
 	uint32 frames_on_last_update = prev_last_sec_frame_count;
 
-	if (capped_ms > 0 && last_frame_ms < capped_ms)
-		SDL_Delay(capped_ms - last_frame_ms);
+	if (cap_framerate) {
+		if (framerate_cap >= last_frame_ms)
+			SDL_Delay(framerate_cap - last_frame_ms);
+	}
 }
 
 // Call modules before each loop iteration
@@ -292,4 +293,9 @@ const char* j1App::GetOrganization() const
 float j1App::GetDT() const
 {
 	return dt;
+}
+
+float j1App::GetFPS() const
+{
+	return avg_fps;
 }

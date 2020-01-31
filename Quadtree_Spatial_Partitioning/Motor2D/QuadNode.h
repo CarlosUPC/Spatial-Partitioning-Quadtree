@@ -110,7 +110,7 @@ template<class T>
 				 this->Split();
 
 
-			 for (int i = 0; i < 3; ++i)
+			 for (int i = 0; i < 4; ++i)
 				 this->nodes[i]->Insert(data);
 					
 
@@ -119,7 +119,7 @@ template<class T>
 			for (std::list<T*>::iterator it = elements.begin(); it != elements.end(); it++)
 			{
 
-				for (int j = 0; j < 3; ++j)
+				for (int j = 0; j < 4; ++j)
 					this->nodes[j]->Insert(*it);	
 
 			}
@@ -130,7 +130,7 @@ template<class T>
 	 else // STEM NODE
 	 {
 
-		 for (int i = 0; i < 3; ++i)
+		 for (int i = 0; i < 4; ++i)
 			 this->nodes[i]->Insert(data);
 				
 	 }
@@ -161,7 +161,7 @@ template<class T>
 	 else // STEM NODE
 	 {
 
-		 for (int i = 0; i < 3; ++i)
+		 for (int i = 0; i < 4; ++i)
 			 this->nodes[i]->Query(found, data);
 
 	 }

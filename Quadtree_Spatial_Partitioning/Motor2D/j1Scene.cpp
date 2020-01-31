@@ -33,7 +33,7 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	if(App->map->Load("iso.tmx") == true)
+	/*if(App->map->Load("iso.tmx") == true)
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -41,9 +41,14 @@ bool j1Scene::Start()
 			App->pathfinding->SetMap(w, h, data);
 
 		RELEASE_ARRAY(data);
-	}
+	}*/
+	bool ret = false;
 
-	debug_tex = App->tex->Load("maps/path2.png");
+	ret = App->map->Load("iso.tmx"); //Load first map in config.xml
+
+	App->render->camera = App->render->CameraInitPos();
+
+	//debug_tex = App->tex->Load("maps/path2.png");
 
 
 	uint w, h;
@@ -71,31 +76,32 @@ bool j1Scene::Update(float dt)
 {
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y += 1;
+		App->render->camera.y += 300 * dt;
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y -= 1;
+		App->render->camera.y -= 300 * dt;
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x += 1;
+		App->render->camera.x += 300 * dt;
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x -= 1;
+		App->render->camera.x -= 300 * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		App->win->ZoomOut();
 
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_UP) {
-		App->collision->AddCollider(SDL_Rect({ 50,50,300,200 }), COLLIDER_ENTITY, nullptr);
-		App->collision->updateQtree = true;
-	}
-
+	
 	int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint coords = App->render->ScreenToWorld(x, y);
 
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
-		App->entities->CreateEntity(coords.x, coords.y, ENTITY_TYPE::ENT_HERO, "hero");
+		App->entities->CreateEntity(coords.x, coords.y, ENTITY_TYPE::ENT_DYNAMIC, "dynamic_hero");
+		//App->collision->updateQtree = true;
+
+	}
+	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
+		App->entities->CreateEntity(coords.x, coords.y, ENTITY_TYPE::ENT_STATIC, "static_hero");
 		//App->collision->updateQtree = true;
 
 	}
