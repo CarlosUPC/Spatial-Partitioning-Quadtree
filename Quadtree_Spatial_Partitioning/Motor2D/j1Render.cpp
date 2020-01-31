@@ -113,6 +113,17 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 	return ret;
 }
 
+bool j1Render::IsOnCamera(const int& x, const int& y, const int& w, const int& h) const
+{
+	int scale = App->win->GetScale();
+
+	SDL_Rect r = { x * scale,y * scale,w * scale,h * scale };
+	SDL_Rect cam = { -camera.x,-camera.y,camera.w,camera.h };
+
+	return SDL_HasIntersection(&r, &cam);
+}
+
+
 // Blit to screen
 bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y) const
 {

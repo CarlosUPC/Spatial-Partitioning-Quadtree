@@ -6,14 +6,40 @@
 #include "j1App.h"
 
 #include <string>
+#include "Animation.h"
+#include "SDL_image/include/SDL_image.h"
 
 class j1EntityManager;
 struct SDL_Texture;
 struct SDL_Rect;
 
-enum class entity_type {
+struct TileSetEntity {
 
-	OBJECT_ENT,
+	SDL_Rect GetTileRect(int id) const;
+
+	std::string name;
+	uint tilewidth = 0;
+	uint tileheight = 0;
+	uint spacing = 0;
+	uint margin = 0;
+	uint tilecount = 0;
+	uint columns = 0;
+	std::string imagePath;
+	SDL_Texture* texture = nullptr;
+	uint width = 0;
+	uint height = 0;
+};
+
+enum class ENTITY_STATE {
+	IDLE = 0,
+	WALKING,
+
+	UNKNOWN
+};
+
+enum class ENTITY_TYPE {
+
+	ENT_HERO,
 	UNKNOWN = 1
 };
 
@@ -21,52 +47,53 @@ class j1Entity {
 
 public:
 
-	j1Entity(entity_type entityType) : type(entityType) {}
-	~j1Entity() {}
+	j1Entity(int xpos, int ypos, ENTITY_TYPE type, std::string name);
+	virtual ~j1Entity();
 
 public:
 
-	// Called before render is available
-	virtual void Awake() {}
+	
+	virtual bool Awake(pugi::xml_node&);
+	virtual bool Start();
+	virtual bool Update(float dt);
+	virtual bool PreUpdate();
+	virtual bool PostUpdate();
+	virtual bool CleanUp();
+	virtual void Draw();
+	virtual void Move(float dt);
 
-	// Called before the first frame if it was activated before that
-	virtual void Start() {}
+	virtual void DestroyEntity();
 
-	// Called each loop iteration
-	virtual void FixUpdate(float dt) {}
+	void OnCollision(Collider* col1, Collider* col2);
 
-	// Called each logic iteration
-	virtual void Update(float dt) {}
-
-	// Called before all Updates
-	virtual void PreUpdate() {}
-
-	// Called before all Updates
-	virtual void PostUpdate() {}
-
-	// Called before quitting
-	virtual void CleanUp() {}
-
-	virtual void DestroyEntity() {}
-
-	entity_type GetType() const { return type; }
+	ENTITY_TYPE GetType() const { return type; }
 	std::string GetName() const { return name; }
+	Collider* GetCollider() const { return collider; }
 
-public:
-
-	virtual void Move(float dt) {}
-	virtual void Draw(float dt) {}
 
 public:
 
 	int life = 0;
 	bool active = false;
 	bool mustDestroy = false;
-	entity_type type;
+
+	ENTITY_TYPE type;
 	std::string name;
+	Collider* collider;
 
 	fPoint position;
+	iPoint pivot = { 0, 0 };
+	iPoint size = { 0, 0 };
+
+	SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE;
+
+	Animation anim_run;
+	Animation anim_coll;
+	Animation* current_anim = nullptr;
 	SDL_Texture *texture = nullptr;
+
+protected:
+	bool left = false;
 
 };
 

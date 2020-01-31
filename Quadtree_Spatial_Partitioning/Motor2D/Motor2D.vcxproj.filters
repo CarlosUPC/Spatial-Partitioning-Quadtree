@@ -43,6 +43,15 @@
     <ClCompile Include="j1Collision.cpp">
       <Filter>Game Files\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="j1EntityManager.cpp">
+      <Filter>Game Files\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Entity.cpp">
+      <Filter>Game Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ENTITY_HERO.cpp">
+      <Filter>Game Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h">
@@ -102,6 +111,18 @@
     <ClInclude Include="j1Collision.h">
       <Filter>Game Files\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="j1EntityManager.h">
+      <Filter>Game Files\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Entity.h">
+      <Filter>Game Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Game Files\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ENTITY_HERO.h">
+      <Filter>Game Files\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -136,6 +157,9 @@
     </Filter>
     <Filter Include="Tools\Optimization Ordering">
       <UniqueIdentifier>{e2eba4cc-9def-4c88-8ff0-8b069594782a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Entities">
+      <UniqueIdentifier>{f16e7b95-4836-402c-887a-486a76ea887a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

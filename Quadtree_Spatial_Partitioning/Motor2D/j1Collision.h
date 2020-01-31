@@ -6,6 +6,8 @@
 #include "SDL\include\SDL.h"
 #include <list>
 
+class j1Entity;
+
 enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = -1,
@@ -19,9 +21,9 @@ struct Collider
 	SDL_Rect rect;
 	bool to_delete = false;
 	COLLIDER_TYPE type;
-	j1Module* callback = nullptr;
+	j1Entity* callback = nullptr;
 
-	Collider(SDL_Rect rectangle, COLLIDER_TYPE type, j1Module* callback = nullptr) :
+	Collider(SDL_Rect rectangle, COLLIDER_TYPE type, j1Entity* callback = nullptr) :
 		rect(rectangle),
 		type(type),
 		callback(callback)
@@ -58,7 +60,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback = nullptr);
+	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Entity* callback = nullptr);
 	void DeleteCollider(Collider* collider);
 	void DebugDraw();
 
@@ -69,6 +71,7 @@ private:
 
 	bool optimization = false;
 	bool debug = false;
+	bool debugQT = false;
 
 	std::list<Collider*> colliders;
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
@@ -81,7 +84,7 @@ private:
 	Quadtree<Collider>* qtree = nullptr;
 
 public:
-	bool activeQT = false;
+	bool updateQtree = false;
 };
 
 

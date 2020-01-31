@@ -3,7 +3,7 @@
 #include "j1Input.h"
 #include "j1Render.h"
 #include "j1Window.h"
-
+#include "j1Entity.h"
 #include "p2Log.h"
 #include "p2Defs.h"
 
@@ -63,8 +63,10 @@ bool j1Collision::Update(float dt)
 		optimization = !optimization;
 	}
 
-	if (debug) 
-		DebugDraw();
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
+		debugQT = !debugQT;
+	}
+
 	
 
 	if (!optimization) //-------- BRUTE FORCE METHOD ---------//
@@ -86,7 +88,11 @@ bool j1Collision::Update(float dt)
 
 	}
 
-	qtree->Draw();
+	if (debug) 
+		DebugDraw();
+
+	if(debugQT)
+		qtree->Draw();
 
 	return true;
 }
@@ -112,7 +118,7 @@ bool j1Collision::CleanUp()
 	return true;
 }
 
-Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback)
+Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Entity* callback)
 {
 	Collider* ret = new Collider(rect, type, callback);
 	colliders.push_back(ret);
@@ -177,16 +183,16 @@ double j1Collision::QuadTreeChecking()
 	quadTreeTimer.Start();
 
 	
-	if (activeQT) 
-	{
+	/*if (updateQtree)
+	{*/
 		qtree->CleanUp();
 
 		for (std::list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); it++) 
 			qtree->Insert(*it);
 
-		activeQT = false;
+		//updateQtree = false;
 
-	}
+	//}
 	
 
 	quadTreeChecks = 0;

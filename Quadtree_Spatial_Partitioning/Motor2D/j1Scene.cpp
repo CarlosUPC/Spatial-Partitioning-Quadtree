@@ -9,6 +9,7 @@
 #include "j1PathFinding.h"
 #include "j1Scene.h"
 #include "j1Collision.h"
+#include "j1EntityManager.h"
 
 
 j1Scene::j1Scene() : j1Module()
@@ -86,9 +87,18 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_UP) {
 		App->collision->AddCollider(SDL_Rect({ 50,50,300,200 }), COLLIDER_ENTITY, nullptr);
-		App->collision->activeQT = true;
+		App->collision->updateQtree = true;
 	}
 
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint coords = App->render->ScreenToWorld(x, y);
+
+	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
+		App->entities->CreateEntity(coords.x, coords.y, ENTITY_TYPE::ENT_HERO, "hero");
+		//App->collision->updateQtree = true;
+
+	}
 
 	App->map->Draw();
 	

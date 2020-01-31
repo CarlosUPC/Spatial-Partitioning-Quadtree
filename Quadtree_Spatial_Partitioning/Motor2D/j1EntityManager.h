@@ -1,5 +1,4 @@
-#ifndef _J1_ENTITY_MANAGER
-#define _J1_ENTITY_MANAGER
+#pragma once
 
 #include "j1Module.h"
 #include "j1Entity.h"
@@ -14,22 +13,22 @@ public:
 	j1EntityManager();
 	~j1EntityManager();
 
-public:
-
-	bool Awake();
+	bool Awake(pugi::xml_node&);
 	bool Start();
 	bool PreUpdate();
 	bool Update(float dt);
+	bool PostUpdate();
 	bool CleanUp();
 
 public:
 
-	j1Entity *CreateEntity(entity_type entityType);
+	j1Entity *CreateEntity(int PositionX, int PositionY,ENTITY_TYPE entityType, std::string name);
 	void DestroyEntity(j1Entity *Entity);
+	static bool SortByYPos(const j1Entity& ent1, const j1Entity& ent2);
 
 public:
 
-	std::list<j1Entity*> entities_list;
+	std::list<j1Entity*> entities;
 
 	float accumulated_time = 0.0f;
 	float update_ms_cycle = 0.0f;
@@ -38,4 +37,3 @@ public:
 
 };
 
-#endif

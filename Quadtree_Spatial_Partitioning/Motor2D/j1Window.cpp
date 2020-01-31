@@ -99,7 +99,16 @@ bool j1Window::CleanUp()
 void j1Window::SetTitle(const char* new_title)
 {
 	//title.create(new_title);
-	SDL_SetWindowTitle(window, new_title);
+	title.clear();
+	title = new_title;
+	SDL_SetWindowTitle(window, title.data());
+}
+
+void j1Window::ConcatTitle(const char* add_title)
+{
+	title = title + std::string(add_title);
+	//std::string new_title = std::string(App->GetTitle()) + add_title;
+	SDL_SetWindowTitle(window, title.data());
 }
 
 void j1Window::GetWindowSize(uint& width, uint& height) const
