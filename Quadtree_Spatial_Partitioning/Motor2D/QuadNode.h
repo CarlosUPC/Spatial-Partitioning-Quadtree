@@ -5,6 +5,7 @@
 #include "SDL/include/SDL.h"
 #include <list>
 #include "p2Log.h"
+#include <type_traits>
 
 template<typename T>
 class Quadtree;
@@ -35,8 +36,9 @@ public:
 	void Draw();
 
 	void CleanUp();
-	//iPoint GetDataCoords(T data);
+	
 	bool Contains(const T& data);
+	
 
 private:
 
@@ -220,46 +222,37 @@ template<class T>
 
  }
 
- template<class T>
- inline bool QuadNode<T>::Contains(const T& data)
- {
-	 /*Middle point of the tile
-	  iPoint pos(data.rect.x + data.rect.w / 2, data.rect.y + data.rect.h / 2);
 
-	  if (pos.x < this->boundary.x ||
-	 	 pos.x > this->boundary.x + this->boundary.w ||
-	 	 pos.y < this->boundary.y ||
-	 	 pos.y > this->boundary.y + this->boundary.h)
-	 	 return false;
-	  
-	  return true;*/
 
-	  return (data.CheckCollision(this->boundary));
+ template <typename T>
+ bool QuadNode<T>::Contains(const T& data) {
+	 if constexpr (std::is_same_v<T, Collider>) {
 
-	
+		 iPoint pos(data.rect.x + data.rect.w / 2, data.rect.y + data.rect.h / 2);
+
+		 if (pos.x < this->boundary.x ||
+			 pos.x > this->boundary.x + this->boundary.w ||
+			 pos.y < this->boundary.y ||
+			 pos.y > this->boundary.y + this->boundary.h)
+			 return false;
+
+		 //  return (data.CheckCollision(this->boundary));
+		 return true;
+	 }
+	 else if constexpr (std::is_same_v<T, j1Entity>) {
+
+		 iPoint pos(data.collider->rect.x + data.collider->rect.w / 2, data.collider->rect.y + data.collider->rect.h / 2);
+		
+		  if (pos.x < this->boundary.x ||
+			  pos.x > this->boundary.x + this->boundary.w ||
+			  pos.y < this->boundary.y ||
+			  pos.y > this->boundary.y + this->boundary.h)
+			  return false;
+
+		  return true;
+	 }
  }
 
-
-
-
- //----------------------TESTING----------------------//
-
- //
- //template<class T>
- //inline iPoint QuadNode<T>::GetDataCoords(T data)
- //{
-	// bool value = false;
-	// 
-	// if(std::is_same<T, Collider>::value)
-	//	 return iPoint(data.rect.x + data.rect.w / 2, data.rect.y + data.rect.h / 2);
-
-	// else {
-	//	 return(iPoint(0, 0));
-	//	 LOG("No element detected");
-	// }
-
-	//
- //}
 
  
  
