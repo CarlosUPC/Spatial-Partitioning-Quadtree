@@ -10,7 +10,7 @@
 #include "j1Scene.h"
 #include "j1Collision.h"
 #include "j1EntityManager.h"
-
+#include <time.h> 
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -36,6 +36,7 @@ bool j1Scene::Start()
 	
 	LOG("Loading Scene");
 	bool ret = true;
+	srand(time(NULL));
 
 	ret = App->map->Load("iso.tmx"); 
 	App->render->SetCameraPos(App->map->data.width * App->map->data.tile_width / 2 - 100, 100);
@@ -79,6 +80,15 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) 
 		App->entities->CreateEntity(coords.x, coords.y, ENTITY_TYPE::ENT_DYNAMIC, "dynamic_hero");
 
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+	{
+		for (int i = 0; i < 1000; ++i)
+		{
+			iPoint coords = App->render->ScreenToWorld(rand() % 1500 + 10 , rand() % 880 + 130);
+			App->entities->CreateEntity(coords.x, coords.y, ENTITY_TYPE::ENT_DYNAMIC, "dynamic_hero");
+		}
+	}
+		
 	
 	App->map->Draw();
 	

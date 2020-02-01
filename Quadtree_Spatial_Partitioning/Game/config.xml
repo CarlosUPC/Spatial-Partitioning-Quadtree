@@ -1,7 +1,7 @@
 <!-- Config file for the game -->
 
 <config>
-  <app framerate_cap="30">
+  <app framerate_cap="60">
     <title>Point-Region Quadtree Performance</title>
     <organization>UPC</organization>
   </app>
@@ -28,7 +28,7 @@
   </map>
 
   <collision>
-    <quadtree qt_x="-760" qt_y="10" qt_width="1600" qt_height="800" capacity="4" depth="4"/>
+    <quadtree qt_x="-760" qt_y="10" qt_width="1600" qt_height="800" capacity="4" depth="6"/>
   </collision>
 
 </config>
