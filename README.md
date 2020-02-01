@@ -7,6 +7,11 @@ This project contains a research about the installers and how to setup a project
 
 You can find information about Installer & Setup Projects in my [website](https://carlosupc.github.io/Installer-Research/).
 
+<p align="center">
+<img src="https://media.giphy.com/media/S6rmuUcJbBgSSpvvGB/giphy.gif" width = "800">
+</p>
+
+
 [Link to the repository.](https://github.com/CarlosUPC/Installer-Research)
 
 ## Installing
