@@ -25,10 +25,10 @@ As a little sneak peek, the following gif shows you up the final result of the p
 ## XML-based Quadtree configuration
 Basic and simple configuration about Quadtree's properties using xml:
 
-* X & Y Coords
+* X & Y values
 * Width & Height values
-* Depth (max)
-* Capacity / Bucket Size (max)
+* Depth (max depth of quadtree)
+* Capacity / Bucket Size (max capacity of quadtree)
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/CarlosUPC/Spatial-Partitioning-Quadtree/master/docs/xml_qt.JPG?token=AIT55NHFBZYXG7F4IF42DD26IBHTY" width = "800">
