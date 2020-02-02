@@ -4,11 +4,11 @@ I am [Carlos Peña Hernando](https://www.linkedin.com/in/carlos-pe%C3%B1a-hernan
 
 ## About the project
 
-This project contains a research about spatial partitioning algorithms and its applications in game development, used as an advance to optimize generally problem-solving algorithms when we have to check and order a sizable amount of elements. This research wraps up with a demo application focused on the scope of Region-Point Quadtree as approached method to test its potential optimization comparing it with force brute method when we are checking collisions at run-time.
+This project contains a research about **spatial partitioning algorithms** and its applications in game development, used as an advance to optimize generally problem-solving algorithms when we have to check and order a sizable amount of elements. This research wraps up with a demo application focused on the scope of **Region-Point Quadtree** as approached method to test its potential optimization comparing it with force brute method when we are checking collisions at run-time.
 
 You can find information about **Spatial Partitioning** in my [website](https://carlosupc.github.io/Spatial-Partitioning-Quadtree/).
 
-You can find the source code at my [github repository](https://github.com/CarlosUPC/Spatial-Partitioning-Quadtree).
+You can find the **source code** at my [github repository](https://github.com/CarlosUPC/Spatial-Partitioning-Quadtree).
 
 
 ## Demo Application
@@ -36,21 +36,23 @@ Basic and simple configuration about Quadtree's properties using xml:
 
 ## Compile-time Quadtree code
 
-* template-based Quadtree class
-* Just 2 Header files
+Quadtree code works as a multiple data-type container to fit with diferent sort of elements (colliders, entities, particles, tiles, gameobjects, etc) with the same logic. Therefore, it turns out more type safety code capable of doing generalizations for many API's and avoids redundant code and its repetition if we need to work with another data-type elements. Evaluated at compile-time and can increase its performance (as an alternative to polymorphism).
+
+* Template-based Quadtree container generic class
+* Easy to integrate (Just 2 Header files)
 * Readable & easy to use
 
-Straight-forward and easy to use:
+Straight-forward steps:
 
-* Create a Quadtree pointer giving an object type
+* Create a Quadtree pointer with a given data type
  ```cpp
  Quadtree<T>* qtree = new Quadtree<T>(x,y,w,h,capacity,depth);
  ```
-* Insert the elements 
+* Insert elements to Quadtree
  ```cpp
 qtree->Insert(array<T>);
  ```
-* Check its relative position every frame querying to found array
+* Check its relative position every frame querying to *found* array
  ```cpp
 qtree->found.clear();
 qtree->query(qtree->found(T));
@@ -91,7 +93,7 @@ more information about my Quadtree code in my [website](https://carlosupc.github
 
 
 ## Author
-**Carlos Peña Hernando** - GitHub account: [CarlosUPC](https://github.com/CarlosUPC) Contact: [carlos_bcn1999@gmail.com]()
+**Carlos Peña Hernando** - GitHub account: [CarlosUPC](https://github.com/CarlosUPC) Contact: [tuputamadre@gmail.com]()
 
 
 ## License
