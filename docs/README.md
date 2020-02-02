@@ -149,7 +149,7 @@ I've also added two functions:
  
 ### BRUTE FORCE PERFORMANCE
  
-<p align="center" width = "600">
+<p align="center" width = "800">
 <img src="https://media.giphy.com/media/h4Bu2Q9UzbYw8WZhbk/giphy.gif">
 </p>
  
@@ -162,7 +162,7 @@ Debug Info:
 
 ### QUADTREE PERFORMANCE
 
-<p align="center" width = "600">
+<p align="center" width = "800">
 <img src="https://media.giphy.com/media/cPZKzQMqiXqaz35P9S/giphy.gif">
 </p>
 
