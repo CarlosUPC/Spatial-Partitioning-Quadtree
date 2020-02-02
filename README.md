@@ -8,9 +8,8 @@ This project contains a research about spatial partitioning algorithms and its a
 
 You can find information about **Spatial Partitioning** in my [website](https://carlosupc.github.io/Spatial-Partitioning-Quadtree/).
 
-[Link to the repository.](https://github.com/CarlosUPC/Spatial-Partitioning-Quadtree).
+You can find the source code at my [github repository](https://github.com/CarlosUPC/Spatial-Partitioning-Quadtree).
 
-***
 
 ## Demo Application
 
@@ -69,7 +68,7 @@ more information about my Quadtree code in my [website](https://carlosupc.github
 * Unzip Quadtree.zip
 * Execute Quadtree.exe
 
-***
+
 ## Controls
 
 * **F1** - Enable / Disable debug draw colliders
@@ -80,7 +79,7 @@ more information about my Quadtree code in my [website](https://carlosupc.github
 * **2** - Insert one dynamic entity
 * **3** - Insert 1000 dynamic entities (for framerate checking purposes)
 
-***
+
 
 ## Built With
 * [Visual Studio](https://visualstudio.microsoft.com/) - IDE
@@ -90,14 +89,19 @@ more information about my Quadtree code in my [website](https://carlosupc.github
 * [Brofiler](http://www.brofiler.com/) - Profiler
 * [Tiled](https://www.mapeditor.org/) - Creating maps
 
-***
+
 ## Author
 **Carlos Peña Hernando** - GitHub account: [CarlosUPC](https://github.com/CarlosUPC) Contact: [carlos_bcn1999@gmail.com]()
 
-***
-## License
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/CarlosUPC/Installer-Research/blob/master/LICENSE) file for details
 
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/CarlosUPC/Spatial-Partitioning-Quadtree/blob/master/LICENSE) file for details
+
+## Previous learning tests coding a Quadtree
+
+[Quadtree Performance Test](https://carlosupc.github.io/Quadtree-Performance-Test/).
+
+[Collision System Performance with Quadtree Test](https://carlosupc.github.io/Quadtree-Collision-Performance-Test/). 
 
 ## Acknowledgements and Webgraphy
 
