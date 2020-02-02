@@ -8,6 +8,8 @@ This project contains a research about spatial partitioning algorithms and its a
 
 You can find information about **Spatial Partitioning** in my [website](https://carlosupc.github.io/Spatial-Partitioning-Quadtree/).
 
+[Link to the repository.](https://github.com/CarlosUPC/Spatial-Partitioning-Quadtree).
+
 ***
 
 ## Demo Application
@@ -20,13 +22,52 @@ As a little sneak peek, the following gif shows you up the final result of the p
 
 > Collision system optimized using Quadtree method
 
-[Link to the repository.](https://github.com/CarlosUPC/Installer-Research)
+
+## XML-based Quadtree configuration
+Basic and simple configuration about Quadtree's properties using xml:
+
+* X & Y Coords
+* Width & Height values
+* Depth (max)
+* Capacity / Bucket Size (max)
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/CarlosUPC/Spatial-Partitioning-Quadtree/master/docs/xml_qt.JPG?token=AIT55NHFBZYXG7F4IF42DD26IBHTY" width = "800">
+</p>
+
+## Compile-time Quadtree code
+
+* template-based Quadtree class
+* Just 2 Header files
+* Readable & easy to use
+
+Straight-forward and easy to use:
+
+* Create a Quadtree pointer giving an object type
+ ```cpp
+ Quadtree<T>* qtree = new Quadtree<T>(x,y,w,h,capacity,depth);
+ ```
+* Insert the elements 
+ ```cpp
+qtree->Insert(array<T>);
+ ```
+* Check its relative position every frame querying to found array
+ ```cpp
+qtree->found.clear();
+qtree->query(qtree->found(T));
+ ```
+* Clean it up when application run out!
+```cpp
+qtree->CleanUp();
+ ```
+more information about my Quadtree code in my [website](https://carlosupc.github.io/Spatial-Partitioning-Quadtree/).
+
 
 ## Installing
 
 * Download last release from [releases]() tab from the [repository](https://github.com/CarlosUPC/Installer-Research)
-* Unzip Installer.zip
-* Execute Installer.exe
+* Unzip Quadtree.zip
+* Execute Quadtree.exe
 
 ***
 ## Controls
@@ -42,10 +83,12 @@ As a little sneak peek, the following gif shows you up the final result of the p
 ***
 
 ## Built With
-* [Visual Studio]() - IDE
-* [SDL]() - Development library
-* [STL]() - Development library
-* [PugiXML]() - XML processing library
+* [Visual Studio](https://visualstudio.microsoft.com/) - IDE
+* [SDL](https://www.libsdl.org/license.php) - Development library
+* [STL](https://www.geeksforgeeks.org/the-c-standard-template-library-stl/) - Development library
+* [PugiXML](https://pugixml.org/) - XML processing library
+* [Brofiler](http://www.brofiler.com/) - Profiler
+* [Tiled](https://www.mapeditor.org/) - Creating maps
 
 ***
 ## Author
