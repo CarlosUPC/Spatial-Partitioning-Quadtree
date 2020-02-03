@@ -1,7 +1,5 @@
 
-<p align="center">
-<h1>Spatial-Partitioning-Quadtree</h1> 
-</p>
+I am [Carlos Peña Hernando](https://www.linkedin.com/in/carlos-pe%C3%B1a-hernando-aa757aaa/), student of the [Bachelor’s Degree in Video Games by UPC at CITM](https://www.citm.upc.edu/ing/estudis/graus-videojocs/). This content is generated as a game development research for learning purposes at my free time.
 
 ## Search Conception
 
@@ -59,13 +57,16 @@ That process is called space partition. There are a lot of ways to divide the sp
 </p>
 
 * **QUADTREE**: divides the space into 4 subsets, each of them might be divided into 4 subsets, etc.
+
 <p align="center">
 <img src="images/quadtree.png" ><br>
 </p>
 
 * **OCTREE**: similar to the quadtrees, but used in 3D instead of 2D. Each node will have 8 children instead of 4.
+
 <p align="center">
 <img src="images/octree.png" ><br>
+</p>
 
 * **K-D TREE**: the space is divided into 2 subspaces, which might not be equal. The “partition lines” are always perpendicular to the coordinates axis.
 
@@ -74,6 +75,7 @@ That process is called space partition. There are a lot of ways to divide the sp
 </p>
 
 * **AABB TREE**: Creates subspaces for each group of elements we need to check. Mostly used in dynamic entities like collisions.
+
  <p align="center">
  <img src="images/aabbtree.png" ><br>
  </p>
@@ -130,7 +132,7 @@ Let's put forward this question with the following image:
 
 <p align="center">
 <img src="images/particles-gif.gif" ><br>
-  </p>
+</p>
   
 * In the first frame we see how the space is not divided, therefore, we check collisions between all the particles (brute force). And in a system for only 20 particles, we need 400 iterations for each frame. It's important to know that the checks we make increase exponentially as we add more particles: with 10 particles we need 100 iterations, with 20 particles, 400 iterations, with 30 particles, 900 iterations, and so on.
 
