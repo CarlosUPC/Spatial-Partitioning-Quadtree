@@ -84,7 +84,8 @@ This are just a **few** ways to part the space explained vrey superficially. The
  
 
 
-# Quadtrees
+# QUADTREES
+
 As a approached method to work with, Quadtree is the space partitioning algorithm i choose to develop an optimized collision system you can find in the demo application i made in my [repository]().
 
 As I said before, quadtrees are a data structure that divide the space into 4 sub regions. Each node will have four children, which will have four children each, etc. 
@@ -93,24 +94,36 @@ Even though I'm going to use them for a "videogame" aproach, they can be used in
 
 <p align="center">
  <img src="images/quadtree-image-compression.gif" ><br>
-
   </p>
+  
   > Compression of an image using quadtrees
   
+ ## Region-Point Quadtree
+ 
 There are different types of quadtrees, but I will focus on the **Region-Point Quadtrees**, which are the most common and I think will be the most useful in a 2D game.
 
 This quadtree divide the total space into four equal regions, which will be divided into four equal regions and so on until we reach the nodes that are at the bottom of the tree. 
 
-<img src="images/quadtree-1.png" ><br>
+<p align="center">
+<img src="https://raw.githubusercontent.com/xavierolivenza/Quadtree_Point_Search_Implementation/master/Pics/Point_quadtree.png" ><br>
+   </p>
 
+Quadtree subdivisions:
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/xavierolivenza/Quadtree_Point_Search_Implementation/master/Pics/Quadtree_steps.png" ><br>
+   </p>
+   
+## How Quadtree fits to?
 This type of structure works mostly with recursive fucntions, which the user will call to the main quadtree but then will be called to all its subnodes. 
 
-OK, nice, now we know how quadtrees divide the space, but how can they be usefull in our game?
+OK, nice, now we know how quadtrees divide the space, but how can they be useful in our game?
 
 Let's go back to **particle** systems. Take a look at this images.
 
+<p align="center">
 <img src="images/particles-gif.gif" ><br>
-
+  </p>
 In the first frame we see how the space is not divided, therefore, we check collisions between all the particles (brute force). And in a system for only 20 particles, we need 400 iterations for each frame. It's important to know that the checks we make increase exponentially as we add more particles: with 10 particles we need 100 iterations, with 20 particles, 400 iterations, with 30 particles, 900 iterations, and so on.
 
 In the second frame the space is divided into four subspaces, and each particle only checks its collision with the other particles in its own subspace. As you can see, it reduces the number of iterations a lot.
@@ -139,7 +152,7 @@ The cases where these search tools comes to are the following ones:
 
 
 
-### Quadtree structure ###
+## Quadtree code structure 
 
 So, now let me explain superficially which I think are the core elements of a quadtree, and then explain more deeply how I used them in my project.
 
