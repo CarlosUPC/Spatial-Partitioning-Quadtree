@@ -96,8 +96,15 @@ Even though I'm going to use them for a "videogame" aproach, they can be used in
  <img src="images/quadtree-image-compression.gif" ><br>
   </p>
   
-  > Compression of an image using quadtrees
-  
+
+## Quadtree's Approaches
+The main cases where Quadtree comes to are the following ones:
+
+* **Camera Culling**: Instead of showing the tiles from the map that belong to the camera by doing an exhaustive search (which is highly uneficient) we use the QuadTree structure. This lets us achieve a cost of n * log(base 4) n (being n the size of the map). We make this happen by recursively checking one fourth of the map with our camera boundaries. If there is any overlaps we divide this quarter in 4 pieces again. We continue doing this until we reach the maximum number of divisions set by the programmer. By doing this we end up having the tiles that must be shown on camera and a few extra ones to have a margin and not have any tile being cut. As a fact, the QuadTree that we use is a static type of data structure. This is because we save the map tiles inside of it once we load the map. Then we only have to reffer to the QuadTree to acces the desired tile/s.
+
+* **Collision Checking**: This case is more difficult than camera culling because the set of tiles is static but entities and particles are dynamic. In this case we need to create a dynamic QuadTree that always changes along with entities. This it's slower than the quadtree mentioned before but it's faster than the exhaustive method.
+
+ 
  ## Region-Point Quadtree
  
 There are different types of quadtrees, but I will focus on the **Region-Point Quadtrees**, which are the most common and I think will be the most useful in a 2D game.
@@ -114,39 +121,26 @@ Quadtree subdivisions:
 <img src="https://raw.githubusercontent.com/xavierolivenza/Quadtree_Point_Search_Implementation/master/Pics/Quadtree_steps.png" ><br>
    </p>
    
-## How Quadtree fits to?
-This type of structure works mostly with recursive fucntions, which the user will call to the main quadtree but then will be called to all its subnodes. 
+## Quadtree's Goal
+This type of structure is more related to recursive functions system since Quadtree starts working in its first quad level (also called as root) and from that root, recursively it calls its subnodes until we reach the last level depth / bottom level of the Quadtree.
 
-OK, nice, now we know how quadtrees divide the space, but how can they be useful in our game?
+Once Quadtree is explained, we know how quadtrees work at a concept view, but how can quadtrees fit in our game? in other words, what's the goal of quadtree in our game? 
 
-Let's go back to **particle** systems. Take a look at this images.
+Let's put forward this question with the following image:
 
 <p align="center">
 <img src="images/particles-gif.gif" ><br>
   </p>
-In the first frame we see how the space is not divided, therefore, we check collisions between all the particles (brute force). And in a system for only 20 particles, we need 400 iterations for each frame. It's important to know that the checks we make increase exponentially as we add more particles: with 10 particles we need 100 iterations, with 20 particles, 400 iterations, with 30 particles, 900 iterations, and so on.
+  
+* In the first frame we see how the space is not divided, therefore, we check collisions between all the particles (brute force). And in a system for only 20 particles, we need 400 iterations for each frame. It's important to know that the checks we make increase exponentially as we add more particles: with 10 particles we need 100 iterations, with 20 particles, 400 iterations, with 30 particles, 900 iterations, and so on.
 
-In the second frame the space is divided into four subspaces, and each particle only checks its collision with the other particles in its own subspace. As you can see, it reduces the number of iterations a lot.
+* In the second frame the space is divided into four subspaces, and each particle only checks its collision with the other particles in its own subspace. As you can see, it reduces the number of iterations a lot.
 
-And in the third frame, we divide all the previous subspaces that had more than 3 particles. As you can see, there are some subspaces which only have one particle, so we won't even need to check their collision. 
+* And in the third frame, we divide all the previous subspaces that had more than 3 particles. As you can see, there are some subspaces which only have one particle, so we won't even need to check their collision. 
 
-Only by dividing the space twice, improved the performance of our system in a 1279%, by going from 400 iterations each frame to 29. Amazing, right?
+Only by dividing the space twice, improved the performance of our system in a **1279%**, by going from 400 iterations each frame to **29 iterations**. Incredible, right?
 
-
-The cases where these search tools comes to are the following ones:
-
-* **Camera Culling**: Instead of showing the tiles from the map that belong to the camera by doing an exhaustive search (which is highly uneficient) we use the QuadTree structure. This lets us achieve a cost of n * log(base 4) n (being n the size of the map). We make this happen by recursively checking one fourth of the map with our camera boundaries. If there is any overlaps we divide this quarter in 4 pieces again. We continue doing this until we reach the maximum number of divisions set by the programmer. By doing this we end up having the tiles that must be shown on camera and a few extra ones to have a margin and not have any tile being cut. As a fact, the QuadTree that we use is a static type of data structure. This is because we save the map tiles inside of it once we load the map. Then we only have to reffer to the QuadTree to acces the desired tile/s.
-
-* **Collision Checking**: This case is more difficult than camera culling because the set of tiles is static but entities and particles are dynamic. In this case we need to create a dynamic QuadTree that always changes along with entities. This it's slower than the quadtree mentioned before but it's faster than the exhaustive method.
-
-
-
-
-
-
-
-
-
+This goal, is indeed the main ambition from myself to archieve an optimized Collision checking using a Region-Point Quadtree
 
 
 
