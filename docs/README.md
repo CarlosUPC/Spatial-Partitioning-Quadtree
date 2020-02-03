@@ -51,38 +51,53 @@ That’s where **spatial partitioning algorithms** appears to save this issue :)
 In order to avoid iterations that are not needed (colliders too far from each other, tiles / polygons out of the screen), we can divide the space into different subsets.
  
 That process is called space partition. There are a lot of ways to divide the space, and depending on our needs we will choose one or another.
- 
-* **Quadtrees**: divides the space into 4 subsets, each of them might be divided into 4 subsets, etc.
 
+* **BSP (Binary Search Partition)**: First used in *Doom*, to optimize the process and ordering by distance. It cuts the space in hyperplanes and keep branching top/bottom of the plane.
+
+<p align="center">
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/81/Binary_space_partition.png" ><br>
+</p>
+
+* **QUADTREE**: divides the space into 4 subsets, each of them might be divided into 4 subsets, etc.
+<p align="center">
 <img src="images/quadtree.png" ><br>
+</p>
 
-* **Octrees**: similar to the quadtrees, but used in 3D instead of 2D. Each node will have 8 children instead of 4.
-
+* **OCTREE**: similar to the quadtrees, but used in 3D instead of 2D. Each node will have 8 children instead of 4.
+<p align="center">
 <img src="images/octree.png" ><br>
 
-* **k-d trees**: the space is divided into 2 subspaces, which might not be equal. The “partition lines” are always perpendicular to the coordinates axis.
+* **K-D TREE**: the space is divided into 2 subspaces, which might not be equal. The “partition lines” are always perpendicular to the coordinates axis.
 
+<p align="center">
 <img src="images/kdtree.png" ><br>
+</p>
 
-* **AABB Trees**: Creates subspaces for each group of elements we need to check. Mostly used in dynamic entities like collisions.
- 
+* **AABB TREE**: Creates subspaces for each group of elements we need to check. Mostly used in dynamic entities like collisions.
+ <p align="center">
  <img src="images/aabbtree.png" ><br>
+ </p>
  
 As you cans see in the images above, these data structures translate the space into nodes, which have more subnodes. This structure can be represented in tree diagrams, that's why they are called trees.
  
 This are just a **few** ways to part the space explained vrey superficially. There are **a lot more** of them, and honestly, we could spend an entire semester talking about different space partition algorithms, but in this article I’m going to focus on Quadtrees.
  
- 
+
+
 # Quadtrees
+As a approached method to work with, Quadtree is the space partitioning algorithm i choose to develop an optimized collision system you can find in the demo application i made in my [repository]().
 
 As I said before, quadtrees are a data structure that divide the space into 4 sub regions. Each node will have four children, which will have four children each, etc. 
 
-Even though I'm going to use them from a "video game" aproach, they can be used in a lot of fields, such as image compression.
+Even though I'm going to use them for a "videogame" aproach, they can be used in a lot of fields, such as image compression.
 
+<p align="center">
  <img src="images/quadtree-image-compression.gif" ><br>
- *Compression of an image using quadtrees*
- 
-There are different types of quadtrees, but I will focus on the "Region Quadtrees", which are the most common and I think will be the most usefull in a 2D game.
+
+  </p>
+  > Compression of an image using quadtrees
+  
+There are different types of quadtrees, but I will focus on the **Region-Point Quadtrees**, which are the most common and I think will be the most useful in a 2D game.
 
 This quadtree divide the total space into four equal regions, which will be divided into four equal regions and so on until we reach the nodes that are at the bottom of the tree. 
 
@@ -103,6 +118,26 @@ In the second frame the space is divided into four subspaces, and each particle 
 And in the third frame, we divide all the previous subspaces that had more than 3 particles. As you can see, there are some subspaces which only have one particle, so we won't even need to check their collision. 
 
 Only by dividing the space twice, improved the performance of our system in a 1279%, by going from 400 iterations each frame to 29. Amazing, right?
+
+
+The cases where these search tools comes to are the following ones:
+
+* **Camera Culling**: Instead of showing the tiles from the map that belong to the camera by doing an exhaustive search (which is highly uneficient) we use the QuadTree structure. This lets us achieve a cost of n * log(base 4) n (being n the size of the map). We make this happen by recursively checking one fourth of the map with our camera boundaries. If there is any overlaps we divide this quarter in 4 pieces again. We continue doing this until we reach the maximum number of divisions set by the programmer. By doing this we end up having the tiles that must be shown on camera and a few extra ones to have a margin and not have any tile being cut. As a fact, the QuadTree that we use is a static type of data structure. This is because we save the map tiles inside of it once we load the map. Then we only have to reffer to the QuadTree to acces the desired tile/s.
+
+* **Collision Checking**: This case is more difficult than camera culling because the set of tiles is static but entities and particles are dynamic. In this case we need to create a dynamic QuadTree that always changes along with entities. This it's slower than the quadtree mentioned before but it's faster than the exhaustive method.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Quadtree structure ###
 
