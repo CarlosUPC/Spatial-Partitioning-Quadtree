@@ -4,11 +4,12 @@ I am [Carlos Peña Hernando](https://www.linkedin.com/in/carlos-pe%C3%B1a-hernan
 
 ## About the project
 
-This project contains a research about spatial partitioning algorithms and its applications in game development, used as an advance to optimize generally problem-solving algorithms when we have to check and order a sizable amount of elements. This research wraps up with a demo application focused on the scope of Region-Point Quadtree as approached method to test its potential optimization comparing it with force brute method when we are checking collisions at run-time.
+This project contains a research about **spatial partitioning algorithms** and its applications in game development, used as an advance to optimize generally problem-solving algorithms when we have to check and order a sizable amount of elements. This research wraps up with a demo application focused on the scope of **Region-Point Quadtree** as approached method to test its potential optimization comparing it with force brute method when we are checking collisions at run-time.
 
 You can find information about **Spatial Partitioning** in my [website](https://carlosupc.github.io/Spatial-Partitioning-Quadtree/).
 
-***
+You can find the **source code** at my [github repository](https://github.com/CarlosUPC/Spatial-Partitioning-Quadtree).
+
 
 ## Demo Application
 
@@ -20,15 +21,56 @@ As a little sneak peek, the following gif shows you up the final result of the p
 
 > Collision system optimized using Quadtree method
 
-[Link to the repository.](https://github.com/CarlosUPC/Installer-Research)
+
+## XML-based Quadtree configuration
+Basic and simple configuration about Quadtree's properties using xml:
+
+* X & Y values
+* Width & Height values
+* Depth (max depth of quadtree)
+* Capacity / Bucket Size (max capacity of quadtree)
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/CarlosUPC/Spatial-Partitioning-Quadtree/master/docs/xml_qt.JPG?token=AIT55NHFBZYXG7F4IF42DD26IBHTY" width = "800">
+</p>
+
+## Compile-time Quadtree code
+
+Quadtree code works as a multiple data-type container to fit with diferent sort of elements (colliders, entities, particles, tiles, gameobjects, etc) with the same logic. Therefore, it turns out more type safety code capable of doing generalizations for many API's and avoids redundant code and its repetition if we need to work with another data-type elements. Evaluated at compile-time and can increase its performance (as an alternative to polymorphism).
+
+* Template-based Quadtree container generic class
+* Easy to integrate (Just 2 Header files)
+* Readable & easy to use
+
+Straight-forward steps:
+
+* Create a Quadtree pointer with a given data type
+ ```cpp
+ Quadtree<T>* qtree = new Quadtree<T>(x,y,w,h,capacity,depth);
+ ```
+* Insert elements to Quadtree
+ ```cpp
+qtree->Insert(array<T>);
+ ```
+* Check its relative position every frame querying to *found* array
+ ```cpp
+qtree->found.clear();
+qtree->query(qtree->found(T));
+ ```
+* Clean it up when application run out!
+```cpp
+qtree->CleanUp();
+ ```
+more information about my Quadtree code in my [website](https://carlosupc.github.io/Spatial-Partitioning-Quadtree/).
+
 
 ## Installing
 
 * Download last release from [releases]() tab from the [repository](https://github.com/CarlosUPC/Installer-Research)
-* Unzip Installer.zip
-* Execute Installer.exe
+* Unzip Quadtree.zip
+* Execute Quadtree.exe
 
-***
+
 ## Controls
 
 * **F1** - Enable / Disable debug draw colliders
@@ -39,22 +81,29 @@ As a little sneak peek, the following gif shows you up the final result of the p
 * **2** - Insert one dynamic entity
 * **3** - Insert 1000 dynamic entities (for framerate checking purposes)
 
-***
+
 
 ## Built With
-* [Visual Studio]() - IDE
-* [SDL]() - Development library
-* [STL]() - Development library
-* [PugiXML]() - XML processing library
+* [Visual Studio](https://visualstudio.microsoft.com/) - IDE
+* [SDL](https://www.libsdl.org/license.php) - Development library
+* [STL](https://www.geeksforgeeks.org/the-c-standard-template-library-stl/) - Development library
+* [PugiXML](https://pugixml.org/) - XML processing library
+* [Brofiler](http://www.brofiler.com/) - Profiler
+* [Tiled](https://www.mapeditor.org/) - Creating maps
 
-***
+
 ## Author
-**Carlos Peña Hernando** - GitHub account: [CarlosUPC](https://github.com/CarlosUPC) Contact: [carlos_bcn1999@gmail.com]()
+**Carlos Peña Hernando** - GitHub account: [CarlosUPC](https://github.com/CarlosUPC) Contact: [tuputamadre@gmail.com]()
 
-***
+
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/CarlosUPC/Installer-Research/blob/master/LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/CarlosUPC/Spatial-Partitioning-Quadtree/blob/master/LICENSE) file for details
 
+## Previous learning tests coding a Quadtree
+
+[Quadtree Performance Test](https://carlosupc.github.io/Quadtree-Performance-Test/).
+
+[Collision System Performance with Quadtree Test](https://carlosupc.github.io/Quadtree-Collision-Performance-Test/). 
 
 ## Acknowledgements and Webgraphy
 
