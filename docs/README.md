@@ -20,13 +20,11 @@ For example, in a game like Age of Empires, if you tell a villager to "cut down 
 Another example may be tower defense games. There are enemies that are advancing in a route, and the towers of defense look for with the engine, enemies that are in range of attack, if so, they attack. Once you have eliminated the target, look for another enemy in range, if there is one, attack, if not, keep doing checks on each frame or every X frames in the search for another enemy.
 
 
-### Brute Force Search, the issue's point
+## Issue's Point
 
-If we want to find a type of entity of the world in a limited area/range, the brute force method would make us check if each entity of that type is within the area/range. Therefore, if we have 200 types of that entity, we will have to do 200x200 checks. Therefore, brute force is slow, since you have to do as many checks as entities are evaluated. What happens if we group and order the entities?, so we will only have to check how many groups are within the area/range, depends on how we group and order, we can significantly reduce the number of checks. That is what is achieved with space partitioning algorithms.
-
-Applied to video games, if we want to find a type of entity of the world in a limited area/range, such as to check collisions, render tile maps, render 3D objects, etc. The first solutions that comes to our mind will usually be an exhaustive search, also called brute force search.
+Applied to video games, if we want to find a type of entity of the world in a limited area/range, such as to check collisions, render tile maps, render 3D objects, etc. The first solutions that comes to our mind will usually be an exhaustive search, also called **brute force search.**
  
-As its name says, this algorithms are generally problem-solving, but they scale with the size of candidates they have to check., working OK with a low amount of them but making our game unplayable if the amount is high.
+As its name says, this algorithms are generally **problem-solving**, but they scale with the size of candidates they have to check., working OK with a low amount of them but making our game **unplayable if the amount is high**.
  
 For example, in order to check the collisions of the particles of the system in the image, if we used a brute force algorithm, we would check each particle colliding with the others, no matter their position.
 
@@ -36,7 +34,7 @@ If we are working with a low amount of particles like in this image, we would it
 <img src="images/low_particles.png"><br>
 </p>
 
-In case that we have 1000 collision -> 1000 * 1000 = 1.000.000 checks and so on. Thus, we can see that the check collisions have a cost of elements^2.
+In case that we have 1000 collision, we are talking about 1000 * 1000 = 1.000.000 checks and so on. Thus, we can see that the check collisions have a cost of elements^2.
 
 So, now imagine how many iterations we would need in a scene like this one:
 
