@@ -216,7 +216,9 @@ bool j1Collision::Awake(pugi::xml_node& config)
 }
 
  ```
-### TODO1: Create Pointer
+### TODO1: Allocate Quadtree memory
+
+### Explication:
 You can't fail this one! Just allocate quadtree memory using qtree pointer declared already and fill the parameter fields using the values you previously defined in TODO0.
 
 ### Solution: 
@@ -231,6 +233,9 @@ bool j1Collision::Start()
  ```
  
 ### TODO2: Split nodes
+
+### Explication:
+
 Until now its being too easy, now its time to complicate the stuff. Be ready to subdivide the root node allocating memory into its child nodes. Remember to calculate well the new boundary coordinates and increase the level of depth by 1!
 
 ### Solution:
@@ -255,6 +260,8 @@ template<class T>
  ```
 
 ### TODO3: Insert()
+
+### Explication:
 
 First of all, we need to check if data is contained in respective bucket (you can use Contains() function). After get it,There are different ways of doing it but i recommend to push the data parameter into element array from each node/bucket if the capacity is not overloaded. 
 
@@ -336,6 +343,8 @@ template<typename T>
   ```
 ### TODO4: Query()
 
+### Explication:
+
 Similar TODO as the last one, we need to check if data is contained in respective bucket (you can use Contains() function) and push all the elements you find into found std::list if we are at the bottom level. If not, make it recursively to use Query() function with the children of respective bucket.
 
 ### Solution:
@@ -371,7 +380,7 @@ template<class T>
  }
  
  ```
-### TODO5: Check Collision
+### TODO5: Collision Checking
 
 ### Explication:
 
