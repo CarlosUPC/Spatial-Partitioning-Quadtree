@@ -1,23 +1,52 @@
-# Spatial-Partitioning-Quadtree
-# Introduction
 
-Something I like about coding, is that every task can be approached and solved in different ways.
- 
-In video games, when we want to check collisions, render tile maps, render 3D objects, etc. the first solutions that comes to our mind will usually be an exhaustive search, also called brute force search.
+<p align="center">
+<h1>Spatial-Partitioning-Quadtree</h1> 
+</p>
+
+## Search Conception
+
+First of all, in order to talk about the topic we are here, It is very important to start with a brief introduction about the concept of "search" in the computational world. The concept of search comes from search engine/ tool code which, as the name implies, searches for certain types of elements in an area of the space. 
+
+This search stick to a rule or rules, such as "search for all elements found at a radius X of this point" , "Search for the element closest to this point", ... Starting from these rules of searching, there are different ways to sort the space to perform the search.
+
+
+
+## Application in Videogame
+
+Search engine is a fundamental tool which at the time was used and nowadays is still used to simulate so many features that have archieved very positive results in videogames.
+
+For example, in a game like Age of Empires, if you tell a villager to "cut down trees to get wood," the villager from the position where he is will look for the nearest tree and when he finds it with the search engine, a pathfinding algorithm will be performed to go to the tree. Once it is finished, if the order has not been revoked, you can search for a nearby tree on a radius with the search engine and retrace the pathfinding to this one, if it does not find any, you can tell it to look for the nearest building and shelter, again with the search engine, but instead of looking for tree entities, look for building entities. 
+
+Another example may be tower defense games. There are enemies that are advancing in a route, and the towers of defense look for with the engine, enemies that are in range of attack, if so, they attack. Once you have eliminated the target, look for another enemy in range, if there is one, attack, if not, keep doing checks on each frame or every X frames in the search for another enemy.
+
+
+### Brute Force Search, the issue's point
+
+If we want to find a type of entity of the world in a limited area/range, the brute force method would make us check if each entity of that type is within the area/range. Therefore, if we have 200 types of that entity, we will have to do 200x200 checks. Therefore, brute force is slow, since you have to do as many checks as entities are evaluated. What happens if we group and order the entities?, so we will only have to check how many groups are within the area/range, depends on how we group and order, we can significantly reduce the number of checks. That is what is achieved with space partitioning algorithms.
+
+Applied to video games, if we want to find a type of entity of the world in a limited area/range, such as to check collisions, render tile maps, render 3D objects, etc. The first solutions that comes to our mind will usually be an exhaustive search, also called brute force search.
  
 As its name says, this algorithms are generally problem-solving, but they scale with the size of candidates they have to check., working OK with a low amount of them but making our game unplayable if the amount is high.
  
-For example, in order to check the collisions of the particles of the system in the image, if we used a brute force algorithm, we would check each particlie colliding with the others, no matter their position.
+For example, in order to check the collisions of the particles of the system in the image, if we used a brute force algorithm, we would check each particle colliding with the others, no matter their position.
 
 If we are working with a low amount of particles like in this image, we would iterate 72 (8x8) times each frame. But let’s say we are working with 100 particles, we would need 10.000 (100x100) iterations each frame.
 
-<img src="images/low_particles.png" ><br>
- 
-Now imagine how many iterations we would need in a scene like this one:
+<p align="center">
+<img src="images/low_particles.png"><br>
+</p>
 
+In case that we have 1000 collision -> 1000 * 1000 = 1.000.000 checks and so on. Thus, we can see that the check collisions have a cost of elements^2.
+
+So, now imagine how many iterations we would need in a scene like this one:
+
+<p align="center">
 <img src="images/lots_particles.png" ><br>
+</p>
 
-And that’s where spacial partitioning appears and saves us.
+A really big headache, don't you think?
+
+That’s where **spatial partitioning algorithms** appears to save this issue :)
 
 # Space partitioning
 
@@ -149,25 +178,25 @@ I've also added two functions:
  
 ### BRUTE FORCE PERFORMANCE
  
-<p align="center" width = "800">
+<p align="center">
 <img src="https://media.giphy.com/media/h4Bu2Q9UzbYw8WZhbk/giphy.gif">
 </p>
  
  
 Debug Info:
 
-<p align="center" >
+<p align="center">
 <img src="https://raw.githubusercontent.com/CarlosUPC/Spatial-Partitioning-Quadtree/master/docs/more_brute_force.JPG?token=AIT55NEBPR5N4DDJNQKNZL26H3KZO">
 </p>
 
 ### QUADTREE PERFORMANCE
 
-<p align="center" width = "800">
+<p align="center">
 <img src="https://media.giphy.com/media/cPZKzQMqiXqaz35P9S/giphy.gif">
 </p>
 
 Debug Info:
 
-<p align="center" >
+<p align="center">
 <img src="https://raw.githubusercontent.com/CarlosUPC/Spatial-Partitioning-Quadtree/master/docs/qtreeeee.JPG?token=AIT55NEJFTX7QGBRUJNFCNK6H3KW4">
 </p>
