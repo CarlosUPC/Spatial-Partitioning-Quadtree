@@ -93,7 +93,7 @@ more information about my Quadtree code in my [website](https://carlosupc.github
 
 
 ## Author
-**Carlos Peña Hernando** - GitHub account: [CarlosUPC](https://github.com/CarlosUPC) Contact: [tuputamadre@gmail.com]()
+**Carlos Peña Hernando** - GitHub account: [CarlosUPC](https://github.com/CarlosUPC) Contact: [charlieph.upc@gmail.com]()
 
 
 ## License
