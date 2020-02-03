@@ -194,23 +194,241 @@ So, now let me explain superficially which I think are the core elements of a qu
  
 ## TODO's and Solutions
 
-### TODO1
-### Solution:
+### TODO0: XML Configuration
 
-### TODO2
 ### Solution:
+```cpp
 
-### TODO3
+bool j1Collision::Awake(pugi::xml_node& config)
+{
+	qtree_rect.x = config.child("quadtree").attribute("qt_x").as_float();
+	qtree_rect.y = config.child("quadtree").attribute("qt_y").as_float();
+	qtree_rect.w = config.child("quadtree").attribute("qt_width").as_float();
+	qtree_rect.h = config.child("quadtree").attribute("qt_height").as_float();
+
+	capacity = config.child("quadtree").attribute("capacity").as_int();
+	depth = config.child("quadtree").attribute("depth").as_int();
+
+	return true;
+}
+
+ ```
+ ### TODO1: Create Pointer
+
+### Solution: 
+```cpp
+
+bool j1Collision::Start()
+{
+	qtree = new Quadtree<Collider>({qtree_rect.x, qtree_rect.y, qtree_rect.w, qtree_rect.h}, capacity, depth);
+	return true;
+}
+
+ ```
+ 
+### TODO2: Split nodes
+
 ### Solution:
+```cpp
 
-### TODO4
+template<class T>
+ void QuadNode<T>::Split()
+{
+
+	nodes[NORTHWEST] = new QuadNode<T>({ boundary.x,boundary.y, boundary.w / 2, boundary.h / 2 }, this->BucketSize, this->depth + 1, this->callback);
+
+	nodes[NORTHEAST] = new QuadNode<T>({ boundary.x + boundary.w / 2,boundary.y,boundary.w / 2, boundary.h / 2 }, this->BucketSize, this->depth + 1, this->callback);
+
+	nodes[SOUTHWEST] = new QuadNode<T>({ boundary.x,boundary.y + boundary.h / 2 , boundary.w / 2, boundary.h / 2 }, this->BucketSize, this->depth + 1, this->callback);
+
+	nodes[SOUTHEAST] = new QuadNode<T>({ boundary.x + boundary.w / 2 ,boundary.y + boundary.h / 2, boundary.w / 2,  boundary.h / 2 }, this->BucketSize, this->depth + 1, this->callback);
+
+	this->divided = true;
+
+}
+
+ ```
+
+### TODO3: Insert()
+
 ### Solution:
+```cpp
+template<typename T>
+ inline bool QuadNode<T>::Insert(T* data)
+ {
 
-### TODO5
+	 if (!this->Contains(*data))
+		 return false;
+
+
+	 if (this->leaf) // LEAF NODE
+	 {
+		 if (this->elements.size() < this->callback->GetMaxBucketSize())
+		 {
+			 this->elements.push_back(data);
+			 return true;
+		 }
+
+		 else if (this->depth < this->callback->GetMaxDepth())
+		 {
+			 this->leaf = false;
+
+			 if (!this->divided)
+				 this->Split();
+
+
+			 for (int i = 0; i < 4; ++i)
+				 this->nodes[i]->Insert(data);
+					
+
+			typename std::list<T>::iterator it;
+
+			for (std::list<T*>::iterator it = elements.begin(); it != elements.end(); it++)
+			{
+
+				for (int j = 0; j < 4; ++j)
+					this->nodes[j]->Insert(*it);	
+
+			}
+
+			this->elements.clear();
+		 }
+	 }
+	 else // STEM NODE
+	 {
+
+		 for (int i = 0; i < 4; ++i)
+			 this->nodes[i]->Insert(data);
+				
+	 }
+
+
+
+
+ }
+ ```
+ ```cpp
+ 
+ double j1Collision::QuadTreeChecking()
+{
+	double quadTreeTime;
+	quadTreeTimer.Start();
+
+	
+	qtree->CleanUp();
+
+	for (std::list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); it++) 
+		qtree->Insert(*it);
+
+		
+	quadTreeTime = quadTreeTimer.ReadMs();
+	return quadTreeTime;
+}
+  ```
+### TODO4: Query()
+
+### Solution:
+```cpp
+
+template<class T>
+ inline void QuadNode<T>::Query(std::list<T*>& found, T* data)
+ {
+
+	 if (!this->Contains(*data))
+		 return;
+
+	 if (this->leaf) // LEAF NODE
+	 {
+		 typename std::list<T>::iterator it;
+
+		 for (std::list<T*>::iterator it = elements.begin(); it != elements.end(); it++)
+		 {
+			 if(data != *it)
+				found.push_back(*it);
+		 }
+
+	 }
+	 else // STEM NODE
+	 {
+
+		 for (int i = 0; i < 4; ++i)
+			 this->nodes[i]->Query(found, data);
+
+	 }
+
+
+ }
+ 
+ ```
+### TODO5: Check Collision
  ### Solution:
+ ```cpp
  
- 
- 
+double j1Collision::QuadTreeChecking()
+{
+	double quadTreeTime;
+	quadTreeTimer.Start();
+
+	
+	qtree->CleanUp();
+
+	for (std::list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); it++) 
+		qtree->Insert(*it);
+
+		
+
+	quadTreeChecks = 0;
+
+	for (std::list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); it++)
+	{
+		qtree->found.clear();
+		qtree->Query(qtree->found, *it);
+
+		if (qtree->found.size() > 0)
+		{
+			LOG("Colliders near found: %i", qtree->found.size());
+
+			for (std::list<Collider*>::iterator it2 = qtree->found.begin(); it2 != qtree->found.end(); it2++) 
+			{
+				if ((*it)->CheckCollision((*it2)->rect)) {
+
+					if (matrix[(*it)->type][(*it2)->type] && (*it)->callback)
+						(*it)->callback->OnCollision((*it), (*it2));
+
+					if (matrix[(*it2)->type][(*it)->type] && (*it2)->callback)
+						(*it2)->callback->OnCollision((*it2), (*it));
+
+				}
+				quadTreeChecks++;
+				
+				App->render->DrawQuad((*it2)->rect, 0, 255, 0, 255, false);
+				App->render->DrawLine((*it)->rect.x + (*it)->rect.w / 2, (*it)->rect.y + (*it)->rect.h / 2, (*it2)->rect.x + (*it2)->rect.w / 2, (*it2)->rect.y + (*it2)->rect.h / 2, 0, 255, 255, 255);
+			}
+
+		}
+
+	}
+
+	quadTreeTime = quadTreeTimer.ReadMs();
+	return quadTreeTime;
+}
+
+ ```
+### TODO5: Draw() & CleanUp()
+
+ ### Solution: 
+  ```cpp
+  if(debugQT)
+		qtree->Draw();
+  ``` 
+  
+   ```cpp
+qtree->CleanUp();
+	delete qtree;
+	qtree = nullptr;
+  ``` 
+  
+  
 # RESULTS
  
 ### BRUTE FORCE PERFORMANCE
