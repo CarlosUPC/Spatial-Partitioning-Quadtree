@@ -150,71 +150,66 @@ This goal, is indeed the main ambition from myself to archieve an optimized Coll
 
 So, now let me explain superficially which I think are the core elements of a quadtree, and then explain more deeply how I used them in my project.
 
-<img src="images/quadtree-core.png" ><br>
-
-We will find this elements in any quadtree, no matter what we use them for, some functions might change, but the overall purpose will be the same. Obviously, we will need more methods and variables depending on what we use our quadtrees for, but this would be a nice parent class. 
-
-The fact that some methods are virtual in this header does not mean that they have to be, this is how I made it, but as I said at the beggining, you can find your own way of coding them.
-
-Basically, all we need is a rectangle that tells us the area the node is occupying (**section**).
-
-The **level** and **max_levels** variables tell us in which level the node is in the tree and how much levels can the tree have respectively, so when a node's level is equal to max_levels, it won't be divided under any circumstance.
-
-<img src="images/levels.png" ><br>
-
-And obviously, an array with all the **subnodes**.
-
-When it comes to the methods, the most important one is the **Split()**, which will divide the node into 4 subnodes.
-
-<img src="images/split-function.png" ><br>
-
-The **CheckTouch()** tells us if a rectangle fits or not to the current node (I know the name is pretty bad, I apologize).
-
-<img src="images/checktouch.png" ><br>
-
-Then we have the **DrawQuadtree()** which, guess what, is going to draw the quadtrees.
-
-<img src="images/draw-qt.png" ><br>
-
-And obviously the constructor and the cleanup.
-
-### Camera culling with quadtrees ###
-
-So, even thought all my examples were about particles and collisions, I used quadtrees for the camera culling of my game. I didn't mention it because i'll talk about it a little bit more deeply here.
-
-When we are playing a video game, we don't need to render all the map, in fact, we must not, because it's a waste of time. As I said at the beggining, if the map isn't really big, it's not a big deal, but most of the cases it won't be like that, and especially in tiled maps we need to optimize the render process.
-
-Let me put into situation. Let's say I'm developing an RTS with a map of 256x256 tiles. That's a total amount of 65.536 tiles, from which only 500 will appear in the screen, more or less. So, how do we print only the tiles that appear in the screen?
-
-<img src="images/camera-culling.png" ><br>
-
-The first solution that might come to our minds is to put a condition before drawing each tile to make sure they appear in the screen, right? **WRONG** We don't want to do that, that's brute force, we're still checking all the tiles. 
-
-What we want to do is to only go across those tiles that appear int the screen, instead of going across all of them and only printing those that are in the screen. How do we do that?
-
-I will create a quadtree in which i will store all the tiles distributed among all the nodes. Unlike particles, tiles are static, so I will only need to place them once. I will store the tiles in the nodes that are at the **bottom of the tree**, so I don't need to create more nodes and alocate data during the update phase.
-
-Before, I showed you a screenshot of what the header of a quadtre would look like. To do this i will create a children class from that one. The header looks like this:
-
-<img src="images/tile-quadtree-header.png" ><br>
-
-First of all, I've created a struct called **TileData** which will store the position and ID of a tile. There will be one of them for each tile in the map. Each node will have a dinamic array in order to store them, but as I said before, I will only store the tiles in the nodes located at the bottom of the tree, so the arrays of the nodes that are not at the bottom will be **NULL**.
-
-The **size** of the node will tell us how many tiles it can store, and **tiles_contained** how many it actually stores.
-
-I've also added two functions:
-
-**CheckVisibility()** will return true if the node is in the screen, and false if it does not.
-
-**DrawMap()** if the node has children, what means it is not at the bottom of the tree, it will check if they are on the screen. each node in the screen will call it, if they are not they won't. When a node located at the bottom of the tree calls it, it will draw the tiles stored in his array.
-
-#### Try to do it by yourself! ####
-
 
 ### Quadtree Performance Test
  [Click Here!](https://carlosupc.github.io/Quadtree-Performance-Test/)
 ### Quadtree Dyn-Collision Performance Test
  [Click Here!](https://carlosupc.github.io/Quadtree-Collision-Performance-Test/)
+ 
+
+### Quadtree container
+ <p align="center">
+<img src="images/quadtree_code1.JPG">
+</p>
+
+### QuadNode container
+<p align="center">
+<img src="images/quadtree_code2.JPG">
+</p>
+
+### QuadNode functions:
+
+### Split()
+<p align="center">
+<img src="images/quadtree_code3.JPG">
+</p>
+
+### Insert()
+ <p align="center">
+<img src="images/quadtree_code5.JPG">
+</p>
+
+
+### Query()
+ <p align="center">
+<img src="images/quadtree_code6.JPG">
+</p>
+
+### Draw()
+  <p align="center">
+<img src="images/quadtree_code4.JPG">
+</p>
+ 
+## TODO's and Solutions
+
+### TODO1
+### Solution:
+
+### TODO2
+### Solution:
+
+### TODO3
+### Solution:
+
+### TODO4
+### Solution:
+
+### TODO5
+ ### Solution:
+ 
+ 
+ 
+# RESULTS
  
 ### BRUTE FORCE PERFORMANCE
  
