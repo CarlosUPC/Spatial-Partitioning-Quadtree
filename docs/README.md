@@ -107,7 +107,7 @@ The main cases where Quadtree comes to are the following ones:
 * **Collision Checking**: This case is more difficult than camera culling because the set of tiles is static but entities and particles are dynamic. In this case we need to create a dynamic QuadTree that always changes along with entities. This it's slower than the quadtree mentioned before but it's faster than the exhaustive method.
 
  
- ## Region-Point Quadtree
+## Region-Point Quadtree
  
 There are different types of quadtrees, but I will focus on the **Region-Point Quadtrees**, which are the most common and I think will be the most useful in a 2D game.
 
@@ -196,6 +196,9 @@ So, now let me explain superficially which I think are the core elements of a qu
 
 ### TODO0: XML Configuration
 
+### Explication:
+Pretty easy one! Fill the following variables from config.xml file provided in the project using pugi API code. You can edit and configure the values anytime you want to test Quadtree performance.
+
 ### Solution:
 ```cpp
 
@@ -213,7 +216,8 @@ bool j1Collision::Awake(pugi::xml_node& config)
 }
 
  ```
- ### TODO1: Create Pointer
+### TODO1: Create Pointer
+You can't fail this one! Just allocate quadtree memory using qtree pointer declared already and fill the parameter fields using the values you previously defined in TODO0.
 
 ### Solution: 
 ```cpp
@@ -227,6 +231,7 @@ bool j1Collision::Start()
  ```
  
 ### TODO2: Split nodes
+Until now its being too easy, now its time to complicate the stuff. Be ready to subdivide the root node allocating memory into its child nodes. Remember to calculate well the new boundary coordinates and increase the level of depth by 1!
 
 ### Solution:
 ```cpp
@@ -250,6 +255,10 @@ template<class T>
  ```
 
 ### TODO3: Insert()
+
+First of all, we need to check if data is contained in respective bucket (you can use Contains() function). After get it,There are different ways of doing it but i recommend to push the data parameter into element array from each node/bucket if the capacity is not overloaded. 
+
+If so, Use the function you made it to subdivide that node and pass all its elements stored into the new child nodes distributing them correctly. Remember to make it recursively using Insert() function with the children of respective bucket when we are not in the leaf node.
 
 ### Solution:
 ```cpp
@@ -327,6 +336,8 @@ template<typename T>
   ```
 ### TODO4: Query()
 
+Similar TODO as the last one, we need to check if data is contained in respective bucket (you can use Contains() function) and push all the elements you find into found std::list if we are at the bottom level. If not, make it recursively to use Query() function with the children of respective bucket.
+
 ### Solution:
 ```cpp
 
@@ -361,7 +372,12 @@ template<class T>
  
  ```
 ### TODO5: Check Collision
- ### Solution:
+
+### Explication:
+
+Okey, at this point we are almost done! Just make the same functionality you can see in BruteForceChecking() function but changing the logic of second loop a bit. We need to call the Query() function to retrieve all of the elements from each bucket into an array (you can use "found" std::list from Quadtree container). Once you get it, iterate it in second loop to check collisions as BruteForce funcion does. Remember to clean the array with retrieved elements because we are doing this every frame!
+
+### Solution:
  ```cpp
  
 double j1Collision::QuadTreeChecking()
@@ -416,16 +432,19 @@ double j1Collision::QuadTreeChecking()
  ```
 ### TODO5: Draw() & CleanUp()
 
- ### Solution: 
+### Explication:
+Call Quadtree Draw function in the update. You can use the boolean "debugQT" to make a condition that when this boolean becomes true, Draw is called. To wrap up, remeber to call Quadtree CleanUp function and delete qtree pointer to free its memory.
+
+### Solution: 
   ```cpp
   if(debugQT)
-		qtree->Draw();
+	qtree->Draw();
   ``` 
   
    ```cpp
-qtree->CleanUp();
-	delete qtree;
-	qtree = nullptr;
+    qtree->CleanUp();
+    delete qtree;
+    qtree = nullptr;
   ``` 
   
   
