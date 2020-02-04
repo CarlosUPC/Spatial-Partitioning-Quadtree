@@ -9,7 +9,7 @@ This search stick to a rule or rules, such as "search for all elements found at 
 
 
 
-## Application in Videogame
+## Application in Videogames
 
 Search engine is a fundamental tool which at the time was used and nowadays is still used to simulate so many features that have archieved very positive results in videogames.
 
@@ -150,24 +150,32 @@ This goal, is indeed the main ambition from myself to archieve an optimized Coll
 
 ## Quadtree code structure 
 
-So, now let me explain superficially which I think are the core elements of a quadtree, and then explain more deeply how I used them in my project.
+Allright! time to dive to the research and let's talk about the code structure of my Quadtree approach. 
 
+At the beginning of my research, i documented myself about everything related to the search and partition algorithms obviously focusing on the quadtree. After an exhaustive investigation, i perform some small experiments throught web and video tutorials programming a quadtree in javascript and visualizing the result in p5. You can see the result [here!](https://carlosupc.github.io/Quadtree-Performance-Test/)
 
-### Quadtree Performance Test
- [Click Here!](https://carlosupc.github.io/Quadtree-Performance-Test/)
-### Quadtree Dyn-Collision Performance Test
- [Click Here!](https://carlosupc.github.io/Quadtree-Collision-Performance-Test/)
- 
+To understand even more deeply the use of this partition algorithm, i developed an optimized collision system with Quadtree in javascript and p5, also with the help of tutorials. You can check the demo [here!](https://carlosupc.github.io/Quadtree-Collision-Performance-Test/)
 
-### Quadtree container
+At this point, i got on and developed a Quadtree code structure according to my thoughts and learning experiments.
+The following image below, shows you the core Quadtree structure from my code.
+
  <p align="center">
 <img src="images/quadtree_code1.JPG">
 </p>
 
-### QuadNode container
+And the next one, shows you the structuree of each node / bucket from Quadtree which i so-called "QuadNode"
+
 <p align="center">
 <img src="images/quadtree_code2.JPG">
 </p>
+
+Maybe we could find this elements in any quadtree, but this one has the peculiarity that it starts with a root from the quadtree, which recursively increases the number of nodes. I found this option very attractive and it fit very well with the algorithm idea of a quadtree. That is why I have separated the code into two parts: Quadtree and Quadnode.
+
+Some functions might change, but the overall purpose will be the same. Obviously, we will need more methods and variables depending on what we use our quadtrees for, but this would be a nice parent class.
+
+The fact that they are templated containers does not mean that they have to be, this is how I made it, but as I said at the beginning, you can find your own way of coding them.
+
+Basically, all we need is a rectangle that tells us the area the node is occupying (**boundary**).
 
 ### QuadNode functions:
 
