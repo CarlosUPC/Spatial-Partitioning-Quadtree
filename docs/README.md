@@ -518,4 +518,11 @@ And how does this affect the performance of our game? Well, let's see:
 
 <img src="images/map_drawing_ms.png" ><br>
 
+
 The numbers at the left, show the time spent drawing the entities with quadtrees, and the ones at the right show the time spent using brute force. From spending more than 200 ms each frame to draw the entities, we now spend 0.040 seconds. So we improved the performance of our game in a ?%, not bad at all, huh?
+
+## Learning Experiments
+
+* Quadtree Performance Test: [here!](https://carlosupc.github.io/Quadtree-Performance-Test/)
+
+* Collision Checking with Quadtree Test:  [here!](https://carlosupc.github.io/Quadtree-Collision-Performance-Test/)
