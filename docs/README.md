@@ -118,13 +118,13 @@ There are different types of quadtrees, but I will focus on the **Region-Point Q
 This quadtree divide the total space into four equal regions, which will be divided into four equal regions and so on until we reach the nodes that are at the bottom of the tree. 
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/xavierolivenza/Quadtree_Point_Search_Implementation/master/Pics/Point_quadtree.png" ><br>
+<img src="images/quadtree_grid.png" ><br>
    </p>
 
 Quadtree subdivisions:
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/xavierolivenza/Quadtree_Point_Search_Implementation/master/Pics/Quadtree_steps.png" ><br>
+<img src="images/qt_structure.png" ><br>
    </p>
    
 ## Quadtree's Goal
