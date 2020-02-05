@@ -37,7 +37,7 @@ In case that we have 1000 collision, we are talking about 1000 * 1000 = 1.000.00
 So, now imagine how many iterations we would need in a scene like this one:
 
 <p align="center">
-<img src="images/lots_particles.png" ><br>
+<img src="https://pbs.twimg.com/media/DhL5dhaU8AAPJ86.jpg" ><br>
 </p>
 
 A really big headache, don't you think?
@@ -86,9 +86,9 @@ This are just a **few** ways to part the space explained vrey superficially. The
  
 
 
-# QUADTREES
+# QUADTREE
 
-As a approached method to work with, Quadtree is the space partitioning algorithm i choose to develop an optimized collision system you can find in the demo application i made in my [repository]().
+As a approached method to work with, Quadtree is the space partitioning algorithm i choose to develop an optimized collision system you can find in the demo application i made in my [repository](https://github.com/CarlosUPC/Spatial-Partitioning-Quadtree).
 
 As I said before, quadtrees are a data structure that divide the space into 4 sub regions. Each node will have four children, which will have four children each, etc. 
 
@@ -102,9 +102,13 @@ Even though I'm going to use them for a "videogame" aproach, they can be used in
 ## Quadtree's Approaches
 The main cases where Quadtree comes to are the following ones:
 
-* **Camera Culling**: Instead of showing the tiles from the map that belong to the camera by doing an exhaustive search (which is highly uneficient) we use the QuadTree structure. This lets us achieve a cost of n * log(base 4) n (being n the size of the map). We make this happen by recursively checking one fourth of the map with our camera boundaries. If there is any overlaps we divide this quarter in 4 pieces again. We continue doing this until we reach the maximum number of divisions set by the programmer. By doing this we end up having the tiles that must be shown on camera and a few extra ones to have a margin and not have any tile being cut. As a fact, the QuadTree that we use is a static type of data structure. This is because we save the map tiles inside of it once we load the map. Then we only have to reffer to the QuadTree to acces the desired tile/s.
+* **Camera Culling**: When we are playing a video game, we don't need to render all the map, in fact, we must not, because it's a waste of time. As I said at the beggining, if the map isn't really big, it's not a big deal, but most of the cases it won't be like that, and especially in tiled maps we need to optimize the render process.
+Let me put into situation. Let's say I'm developing an RTS with a map of 256x256 tiles. That's a total amount of 65.536 tiles, from which only 500 will appear in the screen, more or less.
+What we want to do is to only go across those tiles that appear int the screen, instead of going across all of them and only printing those that are in the screen.
 
-* **Collision Checking**: This case is more difficult than camera culling because the set of tiles is static but entities and particles are dynamic. In this case we need to create a dynamic QuadTree that always changes along with entities. This it's slower than the quadtree mentioned before but it's faster than the exhaustive method.
+* **Collision Checking**: This case is more difficult than camera culling because the set of tiles is static but entities and particles are dynamic. In this case we need to create a dynamic QuadTree that always changes along with entities. 
+
+This it's slower than the quadtree mentioned before but it's faster than the exhaustive method.
 
  
 ## Region-Point Quadtree
@@ -145,9 +149,6 @@ Only by dividing the space twice, improved the performance of our system in a **
 This goal, is indeed the main ambition from myself to archieve an optimized Collision checking using a Region-Point Quadtree
 
 
-
-
-
 ## Quadtree code structure 
 
 Allright! time to dive to the research and let's talk about the code structure of my Quadtree approach. 
@@ -183,7 +184,7 @@ Booleans like **leaf** and **divided** just serve as states to identify if node 
 
 And obviously, an array with all the **subnodes** and an array with the **elements** that node will store.
 
-### Quadtree Functionalities:
+## Quadtree Functionalities:
 
 When it comes to the methods, the most important one is the **Split()**, which will divide the node into 4 subnodes.
 
@@ -198,7 +199,7 @@ Another important one is **Insert()** method, which add all the elements to the 
 </p>
 
 To retrieve all the elements within a respective node to check, for example collisions, we will use **Query()**
-### Query()
+
  <p align="center">
 <img src="images/quadtree_code6.JPG">
 </p>
@@ -494,19 +495,23 @@ Debug Info:
 <img src="https://raw.githubusercontent.com/CarlosUPC/Spatial-Partitioning-Quadtree/master/docs/more_brute_force.JPG?token=AIT55NEBPR5N4DDJNQKNZL26H3KZO">
 </p>
 
-As debug result, we obtain a game at 6 FPS which each frame is performed with an average of 198.94 ms. A truly big game issue for us if we need to work with 1000 entities!
+As debug result, we obtain a game which each frame is performed with an average of 198.94 ms. A truly big game issue for us if we need to work with 1000 entities!
 
 
 ## Quadtree Performance
-In the gif above, you can perceive that there is no lag as the previous fig has. That is possible since with quadtree method, we don't need to iterate all the elements instantiated, just the ones which are contained in each node, so the iterations decrease considerately from 1000x1000 iterations to only 1530 iterations! The optimizations seems like work perfectly!
+
+Instantiating and drawing 1000 entities using Quatree we get this:
+
 
 <p align="center">
 <img src="https://media.giphy.com/media/cPZKzQMqiXqaz35P9S/giphy.gif" width="800">
 </p>
 
+In the gif above, you can perceive that there is no lag as the previous fig has. That is possible since with quadtree method, we don't need to iterate all the elements instantiated, just the ones which are contained in each node, so the iterations decrease considerately from 1000x1000 iterations to only 1530 iterations! The optimizations seems like work perfectly!
+
 Debug Info:
 
-As debug result, we obtain a game at 25 FPS which each frame is performed with an average of 38.9 ms. An incredible improvement, don't you think? 
+As debug result, we obtain a game which each frame is performed with an average of 38.9 ms. An incredible improvement, don't you think? 
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/CarlosUPC/Spatial-Partitioning-Quadtree/master/docs/qtreeeee.JPG?token=AIT55NEJFTX7QGBRUJNFCNK6H3KW4">
@@ -519,7 +524,7 @@ And how does this affect the performance of our game? Well, let's see:
 <img src="images/map_drawing_ms.png" ><br>
 
 
-The numbers at the left, show the time spent drawing the entities with quadtrees, and the ones at the right show the time spent using brute force. From spending more than 200 ms each frame to draw the entities, we now spend 0.040 seconds. So we improved the performance of our game in a ?%, not bad at all, huh?
+The numbers at the left, show the time spent drawing the entities with quadtrees, and the ones at the right show the time spent using brute force. From spending more than 200 ms each frame to draw the entities, we now spend 0.040 seconds. So we improved the performance of our game in a roughly 25%, not bad at all!
 
 ## Learning Experiments
 
