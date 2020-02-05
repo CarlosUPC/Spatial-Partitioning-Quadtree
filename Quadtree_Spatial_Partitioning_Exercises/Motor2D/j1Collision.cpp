@@ -28,7 +28,13 @@ bool j1Collision::Awake(pugi::xml_node& config)
 {
 	LOG("Awaking Collision");
 
-	// TODO 0: Fill the following variables from config.xml file provided in the project using pugi API code.You can editand configure the values anytime you want to test Quadtree performance.
+	qtree_rect.x = config.child("quadtree").attribute("qt_x").as_float();
+	qtree_rect.y = config.child("quadtree").attribute("qt_y").as_float();
+	qtree_rect.w = config.child("quadtree").attribute("qt_width").as_float();
+	qtree_rect.h = config.child("quadtree").attribute("qt_height").as_float();
+
+	capacity = config.child("quadtree").attribute("capacity").as_int();
+	depth = config.child("quadtree").attribute("depth").as_int();
 
 	return true;
 }
@@ -37,7 +43,11 @@ bool j1Collision::Start()
 {
 	LOG("Loading Collision");
 
-	//TODO 1: allocate quadtree memory using qtree pointer declared alreadyand fill the parameter fields using the values you previously defined in TODO0.
+	//Setting Quadtree 
+	//qtree_rect = { -App->render->camera.x - 60,App->render->camera.y - 90, App->map->data.width * App->map->data.tile_width, App->map->data.height * App->map->data.tile_height };
+
+	//Create Quadtree
+	qtree = new Quadtree<Collider>({qtree_rect.x, qtree_rect.y, qtree_rect.w, qtree_rect.h}, capacity, depth);
 
 	return true;
 }
@@ -93,10 +103,8 @@ bool j1Collision::Update(float dt)
 	if (debugCollider) 
 		DebugDraw();
 
-	// TODO 5:
-	// Call Quadtree Draw function in the update.You can use the boolean "debugQT" to make a condition that when this boolean becomes true, Draw is called.
-	// To wrap up, remeber to call Quadtree CleanUp functionand delete qtree pointer to free its memory.
-	
+	if(debugQT)
+		qtree->Draw();
 
 	return true;
 }
@@ -115,9 +123,8 @@ bool j1Collision::CleanUp()
 	colliders.clear();
 
 
-	// TODO 5:
-	// Call Quadtree Draw function in the update.You can use the boolean "debugQT" to make a condition that when this boolean becomes true, Draw is called.
-	// To wrap up, remeber to call Quadtree CleanUp functionand delete qtree pointer to free its memory.
+	qtree->CleanUp();
+	delete qtree;
 	qtree = nullptr;
 
 	return true;
@@ -188,19 +195,43 @@ double j1Collision::QuadTreeChecking()
 	quadTreeTimer.Start();
 
 	
-	// TODO 3:
-	// Use your done Insert() method to add all the elements contained in screen each update and clean it!
+	qtree->CleanUp();
 
+	for (std::list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); it++) 
+		qtree->Insert(*it);
 
-	// TODO 4:
-	// Just make the same functionality you can see in BruteForceChecking() function but changing the logic of second loop a bit.We need to call the Query() 
-	// function to retrieve all of the elements from each bucket into an array(you can use "found"std::list from Quadtree container).
-	// Once you get it, iterate it in second loop to check collisions as BruteForce funcion does.Remember to clean the array with retrieved elements because we are doing this every frame!
+		
 
 	quadTreeChecks = 0;
 
 	for (std::list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); it++)
 	{
+		qtree->found.clear();
+		qtree->Query(qtree->found, *it);
+
+		if (qtree->found.size() > 0)
+		{
+			LOG("Colliders near found: %i", qtree->found.size());
+
+			for (std::list<Collider*>::iterator it2 = qtree->found.begin(); it2 != qtree->found.end(); it2++) 
+			{
+				if ((*it)->CheckCollision((*it2)->rect)) {
+
+					if (matrix[(*it)->type][(*it2)->type] && (*it)->callback)
+						(*it)->callback->OnCollision((*it), (*it2));
+
+					if (matrix[(*it2)->type][(*it)->type] && (*it2)->callback)
+						(*it2)->callback->OnCollision((*it2), (*it));
+
+				}
+				quadTreeChecks++;
+				
+				App->render->DrawQuad((*it2)->rect, 0, 255, 0, 255, false);
+				App->render->DrawLine((*it)->rect.x + (*it)->rect.w / 2, (*it)->rect.y + (*it)->rect.h / 2, (*it2)->rect.x + (*it2)->rect.w / 2, (*it2)->rect.y + (*it2)->rect.h / 2, 0, 255, 255, 255);
+			}
+
+		}
+
 	}
 
 	quadTreeTime = quadTreeTimer.ReadMs();

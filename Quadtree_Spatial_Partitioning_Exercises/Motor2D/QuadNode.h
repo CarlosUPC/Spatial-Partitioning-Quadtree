@@ -78,7 +78,15 @@ template<class T>
  void QuadNode<T>::Split()
 {
 
-	//TODO 2: subdivide the root node allocating memory into its child nodes.Remember to calculate well the new boundary coordinatesand increase the level of depth by 1!
+	nodes[NORTHWEST] = new QuadNode<T>({ boundary.x,boundary.y, boundary.w / 2, boundary.h / 2 }, this->BucketSize, this->depth + 1, this->callback);
+
+	nodes[NORTHEAST] = new QuadNode<T>({ boundary.x + boundary.w / 2,boundary.y,boundary.w / 2, boundary.h / 2 }, this->BucketSize, this->depth + 1, this->callback);
+
+	nodes[SOUTHWEST] = new QuadNode<T>({ boundary.x,boundary.y + boundary.h / 2 , boundary.w / 2, boundary.h / 2 }, this->BucketSize, this->depth + 1, this->callback);
+
+	nodes[SOUTHEAST] = new QuadNode<T>({ boundary.x + boundary.w / 2 ,boundary.y + boundary.h / 2, boundary.w / 2,  boundary.h / 2 }, this->BucketSize, this->depth + 1, this->callback);
+
+	this->divided = true;
 
 
 }
@@ -87,38 +95,48 @@ template<class T>
  inline bool QuadNode<T>::Insert(T* data)
  {
 
-	// TODO 3:
-
-	// First of all, we need to check if data is contained in respective bucket(you can use Contains() function).After get it, There are different ways of doing it but i recommend to push 
-	// the data parameter into element array from each node / bucket if the capacity is not overloaded.
-
-	// If so, Use the function you made it to subdivide that nodeand pass all its elements stored into the new child nodes distributing them correctly.
-	 // Remember to make it recursively using Insert() function with the children of respective bucket when we are not in the leaf node.
+	 if (!this->Contains(*data))
+		 return false;
 
 
 	 if (this->leaf) // LEAF NODE
 	 {
-		
-		for (int i = 0; i < 4; ++i)
-			this->nodes[i]->Insert(data);
+		 if (this->elements.size() < this->callback->GetMaxBucketSize())
+		 {
+			 this->elements.push_back(data);
+			 return true;
+		 }
+
+		 else if (this->depth < this->callback->GetMaxDepth())
+		 {
+			 this->leaf = false;
+
+			 if (!this->divided)
+				 this->Split();
+
+
+			 for (int i = 0; i < 4; ++i)
+				 this->nodes[i]->Insert(data);
 					
 
-		typename std::list<T>::iterator it;
+			typename std::list<T>::iterator it;
 
-		for (std::list<T*>::iterator it = elements.begin(); it != elements.end(); it++)
-		{
+			for (std::list<T*>::iterator it = elements.begin(); it != elements.end(); it++)
+			{
 
-			for (int j = 0; j < 4; ++j)
-				this->nodes[j]->Insert(*it);	
+				for (int j = 0; j < 4; ++j)
+					this->nodes[j]->Insert(*it);	
 
-		}
+			}
 
 			this->elements.clear();
-		 
+		 }
 	 }
 	 else // STEM NODE
 	 {
 
+		 for (int i = 0; i < 4; ++i)
+			 this->nodes[i]->Insert(data);
 				
 	 }
 
@@ -131,10 +149,8 @@ template<class T>
  inline void QuadNode<T>::Query(std::list<T*>& found, T* data)
  {
 
-	// TODO 4:
-
-	// Similar TODO as the last one, we need to check if data is contained in respective bucket(you can use Contains() function) and push 
-	// all the elements you find into found std::list if we are at the bottom level.If not, make it recursively to use Query() function with the children of respective bucket.
+	 if (!this->Contains(*data))
+		 return;
 
 	 if (this->leaf) // LEAF NODE
 	 {
@@ -142,14 +158,16 @@ template<class T>
 
 		 for (std::list<T*>::iterator it = elements.begin(); it != elements.end(); it++)
 		 {
-			
+			 if(data != *it)
+				found.push_back(*it);
 		 }
 
 	 }
 	 else // STEM NODE
 	 {
 
-		
+		 for (int i = 0; i < 4; ++i)
+			 this->nodes[i]->Query(found, data);
 
 	 }
 

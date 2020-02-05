@@ -1,0 +1,34 @@
+<!-- Config file for the game -->
+
+<config>
+  <app framerate_cap="60">
+    <title>Point-Region Quadtree Performance</title>
+    <organization>UPC</organization>
+  </app>
+	
+  <renderer>
+    <vsync value="false"/>
+    <camera camera_x="0" camera_y="0"/>
+  </renderer>
+
+  <window>
+    <resolution width="1500" height="1000" scale="1"/>
+    <fullscreen value="false"/>
+    <borderless value="false"/>
+    <resizable value="false"/>
+    <fullscreen_window value="false"/>
+  </window>
+
+  <file_system>
+    <path>data.zip</path>
+  </file_system>
+
+  <map>
+    <folder>maps/</folder>
+  </map>
+
+  <collision>
+    <quadtree qt_x="-760" qt_y="10" qt_width="1600" qt_height="800" capacity="4" depth="6"/>
+  </collision>
+
+</config>
