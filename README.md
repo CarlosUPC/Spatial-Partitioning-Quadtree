@@ -66,7 +66,7 @@ more information about my Quadtree code in my [website](https://carlosupc.github
 
 ## Installing
 
-* Download last release from [releases]() tab from the [repository](https://github.com/CarlosUPC/Installer-Research)
+* Download last release from [releases](https://github.com/CarlosUPC/Spatial-Partitioning-Quadtree/releases/tag/1.0) tab from the [repository](https://github.com/CarlosUPC/Spatial-Partitioning-Quadtree)
 * Unzip Quadtree.zip
 * Execute Quadtree.exe
 
