@@ -44,7 +44,7 @@ Quadtree code works as a multiple data-type container to fit with diferent sort 
 
 Straight-forward steps:
 
-* Create a Quadtree pointer with a given data type
+* allocate memory to a Quadtree pointer with a given data type
  ```cpp
  Quadtree<T>* qtree = new Quadtree<T>(x,y,w,h,capacity,depth);
  ```
