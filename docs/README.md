@@ -103,9 +103,7 @@ Even though I'm going to use them for a "videogame" aproach, they can be used in
 The main cases where Quadtree comes to are the following ones:
 
 * **Camera Culling**: When we are playing a video game, we don't need to render all the map, in fact, we must not, because it's a waste of time. As I said at the beggining, if the map isn't really big, it's not a big deal, but most of the cases it won't be like that, and especially in tiled maps we need to optimize the render process.
-
 Let me put into situation. Let's say I'm developing an RTS with a map of 256x256 tiles. That's a total amount of 65.536 tiles, from which only 500 will appear in the screen, more or less.
-
 What we want to do is to only go across those tiles that appear int the screen, instead of going across all of them and only printing those that are in the screen.
 
 * **Collision Checking**: This case is more difficult than camera culling because the set of tiles is static but entities and particles are dynamic. In this case we need to create a dynamic QuadTree that always changes along with entities. 
@@ -501,11 +499,15 @@ As debug result, we obtain a game which each frame is performed with an average 
 
 
 ## Quadtree Performance
-In the gif above, you can perceive that there is no lag as the previous fig has. That is possible since with quadtree method, we don't need to iterate all the elements instantiated, just the ones which are contained in each node, so the iterations decrease considerately from 1000x1000 iterations to only 1530 iterations! The optimizations seems like work perfectly!
+
+Instantiating and drawing 1000 entities using Quatree we get this:
+
 
 <p align="center">
 <img src="https://media.giphy.com/media/cPZKzQMqiXqaz35P9S/giphy.gif" width="800">
 </p>
+
+In the gif above, you can perceive that there is no lag as the previous fig has. That is possible since with quadtree method, we don't need to iterate all the elements instantiated, just the ones which are contained in each node, so the iterations decrease considerately from 1000x1000 iterations to only 1530 iterations! The optimizations seems like work perfectly!
 
 Debug Info:
 
