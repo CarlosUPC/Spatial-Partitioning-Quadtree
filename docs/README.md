@@ -177,25 +177,34 @@ The fact that they are templated containers does not mean that they have to be, 
 
 Basically, all we need is a rectangle that tells us the area the node is occupying (**boundary**).
 
-### QuadNode functions:
+Variables like **BucketSize** and **Depth** represent the capacity of elements within a node and its depth level the node is in the tree which when it becomes to the last level of depth, this node turn out a leaf node and won't be subdivided.
 
-### Split()
+Booleans like **leaf** and **divided** just serve as states to identify if node is at the bottom of the tree or is divided.
+
+And obviously, an array with all the **subnodes** and an array with the **elements** that node will store.
+
+### Quadtree Functionalities:
+
+When it comes to the methods, the most important one is the **Split()**, which will divide the node into 4 subnodes.
+
 <p align="center">
 <img src="images/quadtree_code3.JPG">
 </p>
 
-### Insert()
+Another important one is **Insert()** method, which add all the elements to the element array from the respective node
+
  <p align="center">
 <img src="images/quadtree_code5.JPG">
 </p>
 
-
+To retrieve all the elements within a respective node to check, for example collisions, we will use **Query()**
 ### Query()
  <p align="center">
 <img src="images/quadtree_code6.JPG">
 </p>
 
-### Draw()
+Then we have the **Draw()** which, guess what, is going to draw the quadtree rects.
+
   <p align="center">
 <img src="images/quadtree_code4.JPG">
 </p>
