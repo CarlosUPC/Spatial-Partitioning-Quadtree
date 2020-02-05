@@ -16,27 +16,26 @@ public:
 	Quadtree <T>(SDL_Rect boundary, uint bucketSize, uint depth);
 	virtual ~Quadtree();
 
-	void Split();
-	void Insert(T* data);
-	void Query(std::list<T*>& found, T* data);
+	 void Split();
+	 void Insert(T* data);
+	 void Query(std::list<T*>& found, T* data);
+	 void Draw();
+	 void CleanUp();
 
-	void Draw();
-	void CleanUp();
-
-	uint GetMaxDepth() const;
-	uint GetMaxBucketSize() const;
+	 uint GetMaxDepth() const;
+	 uint GetMaxBucketSize() const;
 
 	
 
 private:
 	
 
-	QuadNode<T>* root;             //Root of Quadtree
-	uint max_depth;                //Max number of depth levels 
-	uint max_bucketSize;           //Max capacity of each bucket
+	QuadNode<T>* root;
+	uint max_depth;
+	uint max_bucketSize;
 
 public:
-	std::list<T*> found;          //Array of retrieved elements from a bucket
+	std::list<T*> found;
 
 };
 
