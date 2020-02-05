@@ -474,29 +474,48 @@ Call Quadtree Draw function in the update. You can use the boolean "debugQT" to 
   ``` 
   
   
-# RESULTS
- 
-### BRUTE FORCE PERFORMANCE
- 
+# FINAL RESULTS
+
+Time to see how our application is doing. Let's see how Quadtree's optimization performs upon the application against a recursive search as Brute Force. to get an obvious conclusions of this comparison, we will work with 1000 entities and see what are the performance result using both methods.
+
+## Brute Force Performance
+
+Instantiating and drawing 1000 entities using Brute Force we get this:
+
 <p align="center">
-<img src="https://media.giphy.com/media/h4Bu2Q9UzbYw8WZhbk/giphy.gif">
+<img src="https://media.giphy.com/media/h4Bu2Q9UzbYw8WZhbk/giphy.gif" width="800">
 </p>
- 
- 
+
+In the gif above, you can perceive a certain lag because of low framerate the game goes produced for the huge number of iterations that have to be done to check collisions at 1000 entities. Remember that when Brute Force comes in, its number of iterations will be 1000x1000 if we take in account that we are working with this number of entities.
+
 Debug Info:
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/CarlosUPC/Spatial-Partitioning-Quadtree/master/docs/more_brute_force.JPG?token=AIT55NEBPR5N4DDJNQKNZL26H3KZO">
 </p>
 
-### QUADTREE PERFORMANCE
+As debug result, we obtain a game at 6 FPS which each frame is performed with an average of 198.94 ms. A truly big game issue for us if we need to work with 1000 entities!
+
+
+## Quadtree Performance
+In the gif above, you can perceive that there is no lag as the previous fig has. That is possible since with quadtree method, we don't need to iterate all the elements instantiated, just the ones which are contained in each node, so the iterations decrease considerately from 1000x1000 iterations to only 1530 iterations! The optimizations seems like work perfectly!
 
 <p align="center">
-<img src="https://media.giphy.com/media/cPZKzQMqiXqaz35P9S/giphy.gif">
+<img src="https://media.giphy.com/media/cPZKzQMqiXqaz35P9S/giphy.gif" width="800">
 </p>
 
 Debug Info:
 
+As debug result, we obtain a game at 25 FPS which each frame is performed with an average of 38.9 ms. An incredible improvement, don't you think? 
+
 <p align="center">
 <img src="https://raw.githubusercontent.com/CarlosUPC/Spatial-Partitioning-Quadtree/master/docs/qtreeeee.JPG?token=AIT55NEJFTX7QGBRUJNFCNK6H3KW4">
 </p>
+
+As you can see here, it's really important to optimize the drawing methods of our games. We've gone from iterating **1000x1000 each frame**, to iterating only those that are on each bucket, which are 1530 iterations. This value might change a bit depending on the position of our entities if they are moving as the demo does, but it wouldn't make a big difference.
+
+And how does this affect the performance of our game? Well, let's see:
+
+<img src="images/map_drawing_ms.png" ><br>
+
+The numbers at the left, show the time spent drawing the entities with quadtrees, and the ones at the right show the time spent using brute force. From spending more than 200 ms each frame to draw the entities, we now spend 0.040 seconds. So we improved the performance of our game in a ?%, not bad at all, huh?
