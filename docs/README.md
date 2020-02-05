@@ -9,7 +9,7 @@ This search stick to a rule or rules, such as "search for all elements found at 
 
 
 
-## Application in Videogame
+## Application in Videogames
 
 Search engine is a fundamental tool which at the time was used and nowadays is still used to simulate so many features that have archieved very positive results in videogames.
 
@@ -150,44 +150,61 @@ This goal, is indeed the main ambition from myself to archieve an optimized Coll
 
 ## Quadtree code structure 
 
-So, now let me explain superficially which I think are the core elements of a quadtree, and then explain more deeply how I used them in my project.
+Allright! time to dive to the research and let's talk about the code structure of my Quadtree approach. 
 
+At the beginning of my research, i documented myself about everything related to the search and partition algorithms obviously focusing on the quadtree. After an exhaustive investigation, i perform some small experiments throught web and video tutorials programming a quadtree in javascript and visualizing the result in p5. You can see the result [here!](https://carlosupc.github.io/Quadtree-Performance-Test/)
 
-### Quadtree Performance Test
- [Click Here!](https://carlosupc.github.io/Quadtree-Performance-Test/)
-### Quadtree Dyn-Collision Performance Test
- [Click Here!](https://carlosupc.github.io/Quadtree-Collision-Performance-Test/)
- 
+To understand even more deeply the use of this partition algorithm, i developed an optimized collision system with Quadtree in javascript and p5, also with the help of tutorials. You can check the demo [here!](https://carlosupc.github.io/Quadtree-Collision-Performance-Test/)
 
-### Quadtree container
+At this point, i got on and developed a Quadtree code structure according to my thoughts and learning experiments.
+The following image below, shows you the core Quadtree structure from my code.
+
  <p align="center">
 <img src="images/quadtree_code1.JPG">
 </p>
 
-### QuadNode container
+And the next one, shows you the structuree of each node / bucket from Quadtree which i so-called "QuadNode"
+
 <p align="center">
 <img src="images/quadtree_code2.JPG">
 </p>
 
-### QuadNode functions:
+Maybe we could find this elements in any quadtree, but this one has the peculiarity that it starts with a root from the quadtree, which recursively increases the number of nodes. I found this option very attractive and it fit very well with the algorithm idea of a quadtree. That is why I have separated the code into two parts: Quadtree and Quadnode.
 
-### Split()
+Some functions might change, but the overall purpose will be the same. Obviously, we will need more methods and variables depending on what we use our quadtrees for, but this would be a nice parent class.
+
+The fact that they are templated containers does not mean that they have to be, this is how I made it, but as I said at the beginning, you can find your own way of coding them.
+
+Basically, all we need is a rectangle that tells us the area the node is occupying (**boundary**).
+
+Variables like **BucketSize** and **Depth** represent the capacity of elements within a node and its depth level the node is in the tree which when it becomes to the last level of depth, this node turn out a leaf node and won't be subdivided.
+
+Booleans like **leaf** and **divided** just serve as states to identify if node is at the bottom of the tree or is divided.
+
+And obviously, an array with all the **subnodes** and an array with the **elements** that node will store.
+
+### Quadtree Functionalities:
+
+When it comes to the methods, the most important one is the **Split()**, which will divide the node into 4 subnodes.
+
 <p align="center">
 <img src="images/quadtree_code3.JPG">
 </p>
 
-### Insert()
+Another important one is **Insert()** method, which add all the elements to the element array from the respective node
+
  <p align="center">
 <img src="images/quadtree_code5.JPG">
 </p>
 
-
+To retrieve all the elements within a respective node to check, for example collisions, we will use **Query()**
 ### Query()
  <p align="center">
 <img src="images/quadtree_code6.JPG">
 </p>
 
-### Draw()
+Then we have the **Draw()** which, guess what, is going to draw the quadtree rects.
+
   <p align="center">
 <img src="images/quadtree_code4.JPG">
 </p>
@@ -457,29 +474,104 @@ Call Quadtree Draw function in the update. You can use the boolean "debugQT" to 
   ``` 
   
   
-# RESULTS
- 
-### BRUTE FORCE PERFORMANCE
- 
+# FINAL RESULTS
+
+Time to see how our application is doing. Let's see how Quadtree's optimization performs upon the application against a recursive search as Brute Force. to get an obvious conclusions of this comparison, we will work with 1000 entities and see what are the performance result using both methods.
+
+## Brute Force Performance
+
+Instantiating and drawing 1000 entities using Brute Force we get this:
+
 <p align="center">
-<img src="https://media.giphy.com/media/h4Bu2Q9UzbYw8WZhbk/giphy.gif">
+<img src="https://media.giphy.com/media/h4Bu2Q9UzbYw8WZhbk/giphy.gif" width="800">
 </p>
- 
- 
+
+In the gif above, you can perceive a certain lag because of low framerate the game goes produced for the huge number of iterations that have to be done to check collisions at 1000 entities. Remember that when Brute Force comes in, its number of iterations will be 1000x1000 if we take in account that we are working with this number of entities.
+
 Debug Info:
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/CarlosUPC/Spatial-Partitioning-Quadtree/master/docs/more_brute_force.JPG?token=AIT55NEBPR5N4DDJNQKNZL26H3KZO">
 </p>
 
-### QUADTREE PERFORMANCE
+As debug result, we obtain a game at 6 FPS which each frame is performed with an average of 198.94 ms. A truly big game issue for us if we need to work with 1000 entities!
+
+
+## Quadtree Performance
+In the gif above, you can perceive that there is no lag as the previous fig has. That is possible since with quadtree method, we don't need to iterate all the elements instantiated, just the ones which are contained in each node, so the iterations decrease considerately from 1000x1000 iterations to only 1530 iterations! The optimizations seems like work perfectly!
 
 <p align="center">
-<img src="https://media.giphy.com/media/cPZKzQMqiXqaz35P9S/giphy.gif">
+<img src="https://media.giphy.com/media/cPZKzQMqiXqaz35P9S/giphy.gif" width="800">
 </p>
 
 Debug Info:
 
+As debug result, we obtain a game at 25 FPS which each frame is performed with an average of 38.9 ms. An incredible improvement, don't you think? 
+
 <p align="center">
 <img src="https://raw.githubusercontent.com/CarlosUPC/Spatial-Partitioning-Quadtree/master/docs/qtreeeee.JPG?token=AIT55NEJFTX7QGBRUJNFCNK6H3KW4">
 </p>
+
+As you can see here, it's really important to optimize the drawing methods of our games. We've gone from iterating **1000x1000 each frame**, to iterating only those that are on each bucket, which are 1530 iterations. This value might change a bit depending on the position of our entities if they are moving as the demo does, but it wouldn't make a big difference.
+
+And how does this affect the performance of our game? Well, let's see:
+
+<img src="images/map_drawing_ms.png" ><br>
+
+
+The numbers at the left, show the time spent drawing the entities with quadtrees, and the ones at the right show the time spent using brute force. From spending more than 200 ms each frame to draw the entities, we now spend 0.040 seconds. So we improved the performance of our game in a ?%, not bad at all, huh?
+
+## Learning Experiments
+
+* Quadtree Performance Test: [here!](https://carlosupc.github.io/Quadtree-Performance-Test/)
+
+* Collision Checking with Quadtree Test:  [here!](https://carlosupc.github.io/Quadtree-Collision-Performance-Test/)
+
+## Acknowledgements and Webgraphy
+
+[Wikipedia](https://es.wikipedia.org/wiki/Quadtree).
+
+[genbeta.com](https://www.genbeta.com/desarrollo/teoria-de-colisiones-2d-quadtree). 
+
+[the coding train](https://www.youtube.com/watch?v=OJxEcs0w_kE).
+
+[Space Partitioning](http://gameprogrammingpatterns.com/spatial-partition.html)
+
+[Quadtree implementations 1](https://github.com/Lectem/YAQ)
+
+[Quadtree implementations 2](http://codereview.stackexchange.com/questions/143955/quadtree-c-implementation)
+
+[Octree](http://www.gamasutra.com/view/feature/131625/octree_partitioning_techniques.php)
+
+[Quadtree and Octree](http://www.i-programmer.info/programming/theory/1679-quadtrees-and-octrees.html)
+
+[Quick Tip: Use Quadtrees to Detect Likely Collisions in 2D Space](https://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374)
+
+[K-D Tree Implementation 1](https://rosettacode.org/wiki/K-d_tree)
+
+[K-D Tree Implementation 2](https://github.com/gvd/kdtree)
+
+[K-D Tree Implementation 3](https://github.com/orangejulius/kdtree)
+
+[K-D Tree VS Quadtree](http://stackoverflow.com/questions/13487953/difference-between-quadtree-and-kd-tree)
+
+[K-D Tree VS Quadtree](http://gamedev.stackexchange.com/questions/87138/fully-dynamic-kd-tree-vs-quadtree )
+
+[Quadtrees and Hilbert Curves](http://blog.notdot.net/2009/11/Damn-Cool-Algorithms-Spatial-indexing-with-Quadtreesand-Hilbert-Curves)
+
+[JavaScript QuadTree Implementation](http://www.mikechambers.com/blog/2011/03/21/javascript-quadtree-implementation/)
+
+[Pyramid Panic - Feature - QuadTree Optimizations](https://steemit.com/utopian-io/@carsonroscoe/pyramid-panic-feature-quadtree-optimizations)
+
+[Examining Quadtrees, k-d Trees, and Tile Arrays](https://pdfs.semanticscholar.org/422f/63b62aaa6c8209b0dcbe8a53e360ad90514d.pdf)
+
+[Teoría de colisiones 2D: QuadTree](https://www.genbeta.com/desarrollo/teoria-de-colisiones-2d-quadtree)
+
+[AABB Trees for Collision Detection](https://goharsha.com/blog/aabb-trees-for-collision-detection/)
+
+[Quadtrees – Hierarchical Grids](http://www.cs.tau.ac.il/~haimk/seminar12b/Quadtrees.pdf)
+
+[jimkang](https://jimkang.com/quadtreevis/).
+
+[GeeksforGeeks](https://www.geeksforgeeks.org/quad-tree/).
+
